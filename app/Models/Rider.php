@@ -7,12 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use App\Models\Traits\CommonFeatureTrait;
 
 class Rider extends Model
 {
     use HasFactory;
-	use CommonFeatureTrait;
 
 	// Define the gender options as constants
 	const GENDER_FEMALE = 'female';
@@ -35,8 +33,6 @@ class Rider extends Model
 	 * @var array
 	 */
 	protected $fillable = [
-		'first_name',
-		'surname',
 		'grading',
 		'age',
 		'gender',
@@ -47,11 +43,11 @@ class Rider extends Model
 	 * The columns of the full text index
 	 */
 	protected $searchable = [
-		'first_name',
-		'surname',
+		'user_id',
 		'grading',
 		'age',
 		'gender',
+		'club_id',
 	];
 
 	/**
@@ -70,8 +66,7 @@ class Rider extends Model
 
 		return Validator::make($data, [
 			'id' => ['integer', 'min:1'], // primary key
-			'first_name' => ['required', 'string', 'max:100'],
-			'surname' => ['required', 'string', 'max:100'],
+			'user_id' => ['required', 'integer', 'min:1'], // required foreign key
 			'grading' => ['required', 'numeric', 'min:' . self::GRADING_LOWER, 'max:' . self::GRADING_UPPER],
 			'age' => ['required', 'numeric', 'min:' . self::AGE_LOWER, 'max:' . self::AGE_UPPER],
 			'gender' => ['required', Rule::in([self::GENDER_MALE, self::GENDER_MALE, self::GENDER_OTHER])],
@@ -80,12 +75,20 @@ class Rider extends Model
 	}
 
 	/**
-	 * Get the Club for the Race
+	 * Get the User for the Rider
+	 */
+	public function user()
+	{
+		return $this->belongsTo('App\Models\User');
+	}
+	/**
+	 * Get the Club for the Rider
 	 */
 	public function club()
 	{
 		return $this->belongsTo('App\Models\Club');
 	}
+
 
 	/**
 	 * Get the race entrants the rider was an entrant of.
@@ -145,11 +148,11 @@ class Rider extends Model
 					$whereConditions[] = [$table . '.' . $fieldname, 'like', '%' . addslashes($keyword) . '%', 'or'];
 				}
 
-				// Add where clauses for the generic fields as 'OR' joins for the relation Club
+				// Add where clauses for the generic fields as 'OR' joins for the relation User
 				$fieldsToSearch = ['title', 'address', 'suburb', 'postcode'];
 				foreach ( $fieldsToSearch as $fieldname )
 				{
-					$whereConditions[] = ['clubs.' . $fieldname, 'like', '%' . addslashes($keyword) . '%', 'or'];
+					$whereConditions[] = ['users.' . $fieldname, 'like', '%' . addslashes($keyword) . '%', 'or'];
 				}
 			}
 

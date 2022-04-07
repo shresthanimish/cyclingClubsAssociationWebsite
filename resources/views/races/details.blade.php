@@ -5,9 +5,19 @@
 ?>
 @extends('layouts.app')
 
+@section('title') {{'Races'}} @endsection
+
 @section('content')
 
 	<div class="content-container">
+
+	@if ( Session::has('success') )
+		<p class="alert alert-success">{{ Session::get('success') }}</p>
+	@endif
+
+	@if ( Session::has('error') || $errors->any() )
+		<p class="alert alert-error">{{ Session::get('error') }}</p>
+	@endif
 
 		<h1>{{ ( !empty($race->id) ? 'Update race' : 'Create new race' ) }}</h1>
 

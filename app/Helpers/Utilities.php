@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\Traits;
+namespace App\Helpers;
+
 use DateTime;
 
 /**
- * This trait adds additional common functions to a Model
+ * This class contains common utility functions used
  */
-
-trait CommonFeatureTrait
+class Utilities
 {
 
 	/**

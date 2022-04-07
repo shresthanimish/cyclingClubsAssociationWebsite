@@ -29,20 +29,20 @@
 
 		<div class="form-element">
 			<label>Gender</label>
-			<div class="form-input radioOptions">
-				<div class="radioOption">
+			<div class="form-input radio-options">
+				<div class="radio-option">
 					<input type="radio" name="gender" value="" {{ ( empty($gender) ? 'checked="true"' : '' ) }} />
 					<label>Any Gender</label>
 				</div>
-				<div class="radioOption">
+				<div class="radio-option">
 					<input type="radio" name="gender" value="{{ $rider::GENDER_FEMALE }}" {{ ( $gender == $rider::GENDER_FEMALE ? 'checked="true"' : '' ) }} />
 					<label>{{ $rider::getGenderText($rider::GENDER_FEMALE) }}</label>
 				</div>
-				<div class="radioOption">
+				<div class="radio-option">
 					<input type="radio" name="gender" value="{{ $rider::GENDER_MALE }}" {{ ( $gender == $rider::GENDER_MALE ? 'checked="true"' : '' ) }} />
 					<label>{{ $rider::getGenderText($rider::GENDER_MALE) }}</label>
 				</div>
-				<div class="radioOption">
+				<div class="radio-option">
 					<input type="radio" name="gender" value="{{ $rider::GENDER_OTHER }}" {{ ( $gender == $rider::GENDER_OTHER ? 'checked="true"' : '' ) }} />
 					<label>{{ $rider::getGenderText($rider::GENDER_OTHER) }}</label>
 				</div>

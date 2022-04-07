@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>Club, Race and Rider Example</title>
+	<title>@yield('title') - {{ config('app.name', 'Laravel') }}</title>
 
 	<link rel='dns-prefetch' href='//fonts.googleapis.com' />
 	<link rel="stylesheet" type="text/css" href="/css/global.css" media="screen" />
@@ -27,12 +27,36 @@
 <body>
 <div id="page" class="site">
 	<header>
-		<nav>
+
+@if ( Auth::check() )
+
+		<nav class="admin-navigation">
+			<p>Welcome {{ Auth::user()->getFullName() }}</p>
 			<ul>
 				<li><a href="{{ route('/clubs/index') }}">Manage Clubs</a></li>
 				<li><a href="{{ route('/races/index') }}">Manage Races</a></li>
 				<li><a href="{{ route('/riders/index') }}">Manage Riders</a></li>
+				<li><a href="{{ route('/users/index') }}">Manage Accounts</a></li>
+				<li><a href="{{ route('/profile/details') }}">Edit my details</a></li>
+				<li><a href="{{ route('/profile/password') }}">Change my password</a></li>
+				<li><a href="{{ route('logout') }}">Logout</a></li>
 			</ul>
+		</nav>
+
+@endif
+
+		<nav class="primary-navigation">
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="{{ route('about-us') }}">About Us</a></li>
+				<li><a href="{{ route('clubs') }}">Clubs</a></li>
+				<li><a href="{{ route('races') }}">Races</a></li>
+				<li><a href="{{ route('contact-us') }}">Contact Us</a></li>
+			</ul>
+			<div>
+				<div class="button"><a href="{{ route('login') }}">Login</a></div>
+				<p><a href="{{ route('login') }}">Forgot your password?</a></p>
+			</div>
 		</nav>
 	</header>
 

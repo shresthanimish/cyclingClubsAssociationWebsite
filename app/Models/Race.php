@@ -7,13 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use App\Models\Traits\CommonFeatureTrait;
 use DateTime;
 
 class Race extends Model
 {
 	use HasFactory;
-	use CommonFeatureTrait;
 
 	// Define the status options as constants
 	const STATUS_PENDING = 'pending';

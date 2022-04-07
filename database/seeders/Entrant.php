@@ -6,13 +6,12 @@ use Illuminate\Database\Seeder;
 
 class Entrant extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
-    {
-        //
-    }
+	/**
+	 * Run the database seeds.
+	 * @return void
+	 */
+	public function run()
+	{
+		\App\Models\Entrant::factory()->count(100)->create();
+	}
 }

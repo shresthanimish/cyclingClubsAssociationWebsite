@@ -7,12 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use App\Models\Traits\CommonFeatureTrait;
 
 class Club extends Model
 {
     use HasFactory;
-	use CommonFeatureTrait;
 
 	// Define the page size for the search results
 	const PAGINATION_SIZE = 25;

@@ -6,6 +6,8 @@
 ?>
 @extends('layouts.app')
 
+@section('title') {{'Riders'}} @endsection
+
 @section('content')
 
 <div class="content-container">
@@ -21,17 +23,17 @@
 
 	<div class="button"><a href="{{ route('/riders/create') }}">Create Rider</a></div>
 
-@include('riders._search', [
-	'rider' => $rider,
-	'keyword' => $keyword,
-	'gender' => $gender,
-	'clubsId' => $clubsId,
-	'clubs' => App\Models\Club::get(),
-])
+	@include('riders._search', [
+		'rider' => $rider,
+		'keyword' => $keyword,
+		'gender' => $gender,
+		'clubsId' => $clubsId,
+		'clubs' => App\Models\Club::get(),
+	])
 
 	<div id="ridersList" class="riders-list list-container">
 
-@if ( isset($riders) && count($riders) )
+	@if ( isset($riders) && count($riders) )
 
 		<div class="list-items">
 			<div class="rider-item list-header list-item">
@@ -44,7 +46,7 @@
 				<div class="actions list-field">&nbsp;</div>
 			</div>
 
-	@foreach ( $riders as $rider )
+		@foreach ( $riders as $rider )
 
 			<div class="rider-item list-item">
 				<div class="first-name list-field">{{ $rider->first_name }}</div>
@@ -56,15 +58,15 @@
 				<div class="actions list-field"><a href="{{ route('/riders/details', $rider->id) }}">View</a></div>
 			</div>
 
-	@endforeach
+		@endforeach
 
 		</div>
 
-@else
+	@else
 
 		<p>No riders exist.</p>
 
-@endif
+	@endif
 
 	</div>
 </div>

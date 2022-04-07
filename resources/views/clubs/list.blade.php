@@ -6,6 +6,8 @@
 ?>
 @extends('layouts.app')
 
+@section('title') {{'Clubs'}} @endsection
+
 @section('content')
 
 <div class="content-container">

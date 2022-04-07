@@ -2,15 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use View;
 use App\Models\Race;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use DateTime;
-use View;
 
 class RaceController extends PublicController
 {
+
+	/**
+	 * Create a new controller instance.
+	 * @return void
+	 */
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
 
 	/**
 	 * Show the list of available Race
@@ -19,53 +28,61 @@ class RaceController extends PublicController
 	 */
 	public function index( Request $request )
 	{
-		$race = new \App\Models\Race;
-
-		$searched = false;
-		$keyword = $request->input('keyword');
-		$clubsId = $request->input('clubsId');
-		$statesId = $request->input('statesId');
-		$status = $request->input('status');
-		$appends = ['keyword' => $keyword, 'clubsId' => $clubsId, 'statesId' => $statesId, 'status' => $status];
-
-		if ( $request->isMethod('post') )
+		$loggedInUser = Auth::user();
+		if ( is_object($loggedInUser) && $loggedInUser->role == \App\Models\User::ROLE_ADMIN )
 		{
-			if ( !empty($keyword ) || !empty($clubsId) || !empty($statesId) || !empty($status) )
+			$race = new \App\Models\Race;
+
+			$searched = false;
+			$keyword = $request->input('keyword');
+			$clubsId = $request->input('clubsId');
+			$statesId = $request->input('statesId');
+			$status = $request->input('status');
+			$appends = ['keyword' => $keyword, 'clubsId' => $clubsId, 'statesId' => $statesId, 'status' => $status];
+
+			if ( $request->isMethod('post') )
 			{
-				$searched = true;
-				$races = $race->search($keyword, $clubsId, $statesId, $status);
+				if ( !empty($keyword ) || !empty($clubsId) || !empty($statesId) || !empty($status) )
+				{
+					$searched = true;
+					$races = $race->search($keyword, $clubsId, $statesId, $status);
+				}
 			}
-		}
 
-		// If we haven't searched get all items as a paginated set
-		if ( !$searched )
-		{
-			$races = $race->paginate();
-		}
+			// If we haven't searched get all items as a paginated set
+			if ( !$searched )
+			{
+				$races = $race->paginate();
+			}
 
-		if ( count($races) > 0 )
-		{
-			$races->appends($appends);
-			$rv = view('races.list')->with([
-				'races' => $races,
-				'race' => $race,
-				'keyword' => $keyword,
-				'clubsId' => $clubsId,
-				'statesId' => $statesId,
-				'status' => $status,
+			if ( count($races) > 0 )
+			{
+				$races->appends($appends);
+				$rv = view('races.list')->with([
+					'races' => $races,
+					'race' => $race,
+					'keyword' => $keyword,
+					'clubsId' => $clubsId,
+					'statesId' => $statesId,
+					'status' => $status,
 
-			]);
+				]);
+			}
+			else
+			{
+				$rv = view('races.nonesuch')->with([
+					'race' => $race,
+					'keyword' => $keyword,
+					'clubsId' => $clubsId,
+					'statesId' => $statesId,
+					'status' => $status,
+					'searched' => $searched,
+				]);
+			}
 		}
 		else
 		{
-			$rv = view('races.nonesuch')->with([
-				'race' => $race,
-				'keyword' => $keyword,
-				'clubsId' => $clubsId,
-				'statesId' => $statesId,
-				'status' => $status,
-				'searched' => $searched,
-			]);
+			$rv = redirect('/')->with('error', 'You do not have permissions to access this feature.');
 		}
 		return $rv;
 	}
@@ -77,30 +94,32 @@ class RaceController extends PublicController
 	 */
 	public function create( Request $request )
 	{
-		$rv = NULL;
-
-		$race = new \App\Models\Race;
-
-		if ( $request->isMethod('post') )
+		$loggedInUser = Auth::user();
+		if ( is_object($loggedInUser) && $loggedInUser->role == \App\Models\User::ROLE_ADMIN )
 		{
-			$data = $request->get('Race');
-			Race::fillFromFilteredData($race, $data);
+			$rv = NULL;
 
-			$rv = $race->storeDetails($request);
-		}
+			$race = new \App\Models\Race;
 
-		if ( $rv === NULL )
-		{
-			$data = $request->session()->get('_old_input');
-			if ( isset($data['Race']) && is_array($data['Race']) )
+			if ( $request->isMethod('post') )
 			{
-				Race::fillFromFilteredData($race, $data['Race']);
+				$data = $request->get('Race');
+				Utilities::fillFromFilteredData($race, $data);
+
+				$rv = $race->storeDetails($request);
 			}
 
-			$rv = view('races.details')->with([
-				'race' => $race,
-				'route' => route('/races/create')
-			]);
+			if ( $rv === NULL )
+			{
+				$rv = view('races.details')->with([
+					'race' => $race,
+					'route' => route('/races/create')
+				]);
+			}
+		}
+		else
+		{
+			$rv = redirect('/')->with('error', 'You do not have permissions to access this feature.');
 		}
 		return $rv;
 	}
@@ -113,26 +132,60 @@ class RaceController extends PublicController
 	 */
 	public function details( $id, Request $request )
 	{
-		$race = \App\Models\Race::findOrFail($id);
-
-		if ( $request->isMethod('post') )
+		$loggedInUser = Auth::user();
+		if ( is_object($loggedInUser) && $loggedInUser->role == \App\Models\User::ROLE_ADMIN )
 		{
-			$data = $request->get('Race');
-			Race::fillFromFilteredData($race, $data);
+			$race = \App\Models\Race::findOrFail($id);
 
-			$rv = $race->storeDetails($request);
+			if ( $request->isMethod('post') )
+			{
+				$data = $request->get('Race');
+				Utilities::fillFromFilteredData($race, $data);
+
+				$rv = $race->storeDetails($request);
+			}
+			else
+			{
+				$rv = view('races.details')->with([
+					'race' => $race,
+					'route' => route('/races/details', $race->id)
+				]);
+			}
 		}
 		else
 		{
-			$data = $request->session()->get('_old_input');
-			if ( isset($data['Race']) && is_array($data['Race']) )
+			$rv = redirect('/')->with('error', 'You do not have permissions to access this feature.');
+		}
+
+		return $rv;
+	}
+
+	/**
+	 * Handles deleting a Race.
+	 * @param integer $id The ID of the race to be deleted
+	 * @param \Illuminate\Http\Request $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function delete( $id, Request $request )
+	{
+		$loggedInUser = Auth::user();
+		if ( is_object($loggedInUser) && $loggedInUser->role == \App\Models\User::ROLE_ADMIN )
+		{
+			$race = \App\Models\Race::findOrFail($id);
+
+			$allowed = false;
+			if ( $allowed && $race->save() )
 			{
-				Race::fillFromFilteredData($race, $data['Race']);
+				$rv = redirect('/races/index')->with('success', 'The race was successfully deleted');
 			}
-			$rv = view('races.details')->with([
-				'race' => $race,
-				'route' => route('/races/details', $race->id)
-			]);
+			else
+			{
+				$rv = redirect('/races/index')->with('error', 'An error occurred in deleting the race.');
+			}
+		}
+		else
+		{
+			$rv = redirect('/')->with('error', 'You do not have permissions to access this feature.');
 		}
 
 		return $rv;
@@ -147,29 +200,8 @@ class RaceController extends PublicController
 	public function entrants( $id, Request $request )
 	{
 		$race = \App\Models\Race::findOrFail($id);
-	}
 
-	/**
-	 * Handles deleting a Race.
-	 * @param integer $id The ID of the race to be deleted
-	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function delete( $id, Request $request )
-	{
-		$race = \App\Models\Race::findOrFail($id);
-
-		$allowed = false;
-		if ( $allowed && $race->save() )
-		{
-			$rv = redirect('/races/index')->with('success', 'The race was successfully deleted');
-		}
-		else
-		{
-			$rv = redirect('/races/index')->with('error', 'An error occurred in deleting the race.');
-		}
-
-		return $rv;
+		// TODO: Display entrants
 	}
 
 }

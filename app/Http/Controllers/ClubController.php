@@ -2,15 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use View;
 use App\Models\Club;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use DateTime;
-use View;
 
 class ClubController extends PublicController
 {
+
+	/**
+	 * Create a new controller instance.
+	 * @return void
+	 */
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
 
 	/**
 	 * Show the list of available Clubs
@@ -19,47 +28,55 @@ class ClubController extends PublicController
 	 */
 	public function index( Request $request )
 	{
-		$club = new \App\Models\Club;
-
-		$searched = false;
-		$keyword = $request->input('keyword');
-		$statesId = $request->input('statesId');
-		$appends = ['keyword' => $keyword, 'statesId' => $statesId];
-
-		if ( $request->isMethod('post') )
+		$loggedInUser = Auth::user();
+		if ( is_object($loggedInUser) && $loggedInUser->role == \App\Models\User::ROLE_ADMIN )
 		{
-			if ( !empty($keyword ) || !empty($statesId) )
+			$club = new \App\Models\Club;
+
+			$searched = false;
+			$keyword = $request->input('keyword');
+			$statesId = $request->input('statesId');
+			$appends = ['keyword' => $keyword, 'statesId' => $statesId];
+
+			if ( $request->isMethod('post') )
 			{
-				$searched = true;
-				$clubs = $club->search($keyword, $statesId);
+				if ( !empty($keyword ) || !empty($statesId) )
+				{
+					$searched = true;
+					$clubs = $club->search($keyword, $statesId);
+				}
 			}
-		}
 
-		// If we haven't searched get all items as a paginated set
-		if ( !$searched )
-		{
-			$clubs = $club->paginate();
-		}
+			// If we haven't searched get all items as a paginated set
+			if ( !$searched )
+			{
+				$clubs = $club->paginate();
+			}
 
-		if ( count($clubs) > 0 )
-		{
-			$clubs->appends($appends);
-			$rv = view('clubs.list')->with([
-				'clubs' => $clubs,
-				'club' => $club,
-				'keyword' => $keyword,
-				'statesId' => $statesId,
-				'searched' => $searched,
-			]);
+			if ( count($clubs) > 0 )
+			{
+				$clubs->appends($appends);
+				$rv = view('clubs.list')->with([
+					'clubs' => $clubs,
+					'club' => $club,
+					'keyword' => $keyword,
+					'statesId' => $statesId,
+					'searched' => $searched,
+				]);
+			}
+			else
+			{
+				$rv = view('clubs.nonesuch')->with([
+					'club' => $club,
+					'keyword' => $keyword,
+					'statesId' => $statesId,
+					'searched' => $searched,
+				]);
+			}
 		}
 		else
 		{
-			$rv = view('clubs.nonesuch')->with([
-				'club' => $club,
-				'keyword' => $keyword,
-				'statesId' => $statesId,
-				'searched' => $searched,
-			]);
+			$rv = redirect('/')->with('error', 'You do not have permissions to access this feature.');
 		}
 		return $rv;
 	}
@@ -72,30 +89,32 @@ class ClubController extends PublicController
 	 */
 	public function create( Request $request )
 	{
-		$rv = NULL;
-
-		$club = new \App\Models\Club;
-
-		if ( $request->isMethod('post') )
+		$loggedInUser = Auth::user();
+		if ( is_object($loggedInUser) && $loggedInUser->role == \App\Models\User::ROLE_ADMIN )
 		{
-			$data = $request->get('Club');
-			Club::fillFromFilteredData($club, $data);
+			$rv = NULL;
 
-			$rv = $club->storeDetails($request);
-		}
+			$club = new \App\Models\Club;
 
-		if ( $rv === NULL )
-		{
-			$data = $request->session()->get('_old_input');
-			if ( isset($data['Club']) && is_array($data['Club']) )
+			if ( $request->isMethod('post') )
 			{
-				Club::fillFromFilteredData($club, $data['Club']);
+				$data = $request->get('Club');
+				Utilities::fillFromFilteredData($club, $data);
+
+				$rv = $club->storeDetails($request);
 			}
 
-			$rv = view('clubs.details')->with([
-				'club' => $club,
-				'route' => route('/clubs/create')
-			]);
+			if ( $rv === NULL )
+			{
+				$rv = view('clubs.details')->with([
+					'club' => $club,
+					'route' => route('/clubs/create')
+				]);
+			}
+		}
+		else
+		{
+			$rv = redirect('/')->with('error', 'You do not have permissions to access this feature.');
 		}
 		return $rv;
 	}
@@ -108,27 +127,29 @@ class ClubController extends PublicController
 	 */
 	public function details( $id, Request $request )
 	{
-		$club = \App\Models\Club::findOrFail($id);
-
-		if ( $request->isMethod('post') )
+		$loggedInUser = Auth::user();
+		if ( is_object($loggedInUser) && $loggedInUser->role == \App\Models\User::ROLE_ADMIN )
 		{
-			$data = $request->get('Club');
-			Club::fillFromFilteredData($club, $data);
+			$club = \App\Models\Club::findOrFail($id);
 
-			$rv = $club->storeDetails($request);
+			if ( $request->isMethod('post') )
+			{
+				$data = $request->get('Club');
+				Utilities::fillFromFilteredData($club, $data);
+
+				$rv = $club->storeDetails($request);
+			}
+			else
+			{
+				$rv = view('clubs.details')->with([
+					'club' => $club,
+					'route' => route('/clubs/details', $club->id)
+				]);
+			}
 		}
 		else
 		{
-			$data = $request->session()->get('_old_input');
-			if ( isset($data['Club']) && is_array($data['Club']) )
-			{
-				Club::fillFromFilteredData($club, $data['Club']);
-			}
-
-			$rv = view('clubs.details')->with([
-				'club' => $club,
-				'route' => route('/clubs/details', $club->id)
-			]);
+			$rv = redirect('/')->with('error', 'You do not have permissions to access this feature.');
 		}
 
 		return $rv;
@@ -142,17 +163,25 @@ class ClubController extends PublicController
 	 */
 	public function delete( $id, Request $request )
 	{
-		$club = \App\Models\Club::findOrFail($id);
-
-		$allowed = false;
-		// TODO: Add check to protect club in use
-		if ( $allowed && $club->delete() )
+		$loggedInUser = Auth::user();
+		if ( is_object($loggedInUser) && $loggedInUser->role == \App\Models\User::ROLE_ADMIN )
 		{
-			$rv = redirect('/clubs/index')->with('success', 'The club was successfully deleted');
+			$club = \App\Models\Club::findOrFail($id);
+
+			$allowed = false;
+			// TODO: Add check to protect club in use
+			if ( $allowed && $club->delete() )
+			{
+				$rv = redirect('/clubs/index')->with('success', 'The club was successfully deleted');
+			}
+			else
+			{
+				$rv = redirect('/clubs/index')->with('error', 'An error occurred deleting the club.');
+			}
 		}
 		else
 		{
-			$rv = redirect('/clubs/index')->with('error', 'An error occurred deleting the club.');
+			$rv = redirect('/')->with('error', 'You do not have permissions to access this feature.');
 		}
 
 		return $rv;

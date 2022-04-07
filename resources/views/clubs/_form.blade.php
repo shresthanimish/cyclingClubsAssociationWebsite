@@ -3,9 +3,6 @@
  * Form view to create/edit a Club
  */
 ?>
-		@if ( Session::has('error') || $errors->any() )
-			<p class="alert alert-error">An error occured processing your request. {{ Session::get('error') }}</p>
-		@endif
 
 		<form id="clubForm" action="{{ $route }}" method="post">
 			@csrf
@@ -65,7 +62,7 @@
 
 			<div class="form-element">
 				<label>&nbsp;</label>
-				<div class="form-input"><input type="submit" name="process" value="Save" class="button save" /></div>
+				<div class="form-input"><input type="submit" name="process" value="Save" class="button submit save" /></div>
 			</div>
 
 		</form>

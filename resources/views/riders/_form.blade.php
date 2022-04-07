@@ -3,9 +3,6 @@
  * Form view to create/edit a Rider
  */
 ?>
-		@if ( Session::has('error') || $errors->any() )
-			<p class="alert alert-error">An error occured processing your request. {{ Session::get('error') }}</p>
-		@endif
 
 		<form id="riderForm" action="{{ $route }}" method="post">
 			@csrf
@@ -20,7 +17,7 @@
 				@if ( is_object($clubs) && count($clubs) )
 					<select name="Rider[club_id]" class="select" required>
 					@foreach ( $clubs as $club )
-						<option value="{{ $club->id }}" {{ ( $club->id == $rider->club_id ? 'selected="true"' : '' ) }}>{{ $club->title }}</option>
+						<option value="{{ $club->id }}" {{ ( $club->id == old('club_id') ? 'selected="true"' : '' ) }}>{{ $club->title }}</option>
 					@endforeach
 					</select>
 				@endif
@@ -33,7 +30,7 @@
 				@endif
 
 				<label>First name <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="text" name="Rider[first_name]" value="{{ $rider->first_name }}" class="input" /></div>
+				<div class="form-input"><input type="text" name="Rider[first_name]" value="{{ old('first_name') }}" class="input" /></div>
 			</div>
 
 			<div class="form-element">
@@ -42,7 +39,7 @@
 				@endif
 
 				<label>Surname <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="text" name="Rider[surname]" value="{{ $rider->surname }}" class="input" /></div>
+				<div class="form-input"><input type="text" name="Rider[surname]" value="{{ old('surname') }}" class="input" /></div>
 			</div>
 
 			<div class="form-element">
@@ -51,12 +48,12 @@
 				@endif
 
 				<label>Grading <span class="validation-error">&#42;</span></label>
-				<div class="form-input">
+				<div class="form-input radio-buttons">
 				@php($gradingOptions = $rider::getGradingOptions())
 				@if ( is_array($gradingOptions) && count($gradingOptions) )
 					<select name="Rider[grading]" class="select">
 					@foreach ( $gradingOptions as $gradingValue => $gradingLabel )
-						<option value="{{ $gradingValue }}" {{ ( $rider->grading == $gradingValue ? 'selected="true"' : '' ) }}>{{ $gradingLabel }}</option>
+						<option value="{{ $gradingValue }}" {{ ( $gradingValue == old('grading') ? 'selected="true"' : '' ) }}>{{ $gradingLabel }}</option>
 					@endforeach
 					</select>
 				@endif
@@ -74,7 +71,7 @@
 				@php($ageOptions = $rider::getAgeOptions())
 				@if ( is_array($ageOptions) && count($ageOptions) )
 					@foreach ( $ageOptions as $ageValue => $ageLabel )
-						<option value="{{ $ageValue }}" {{ ( $rider->age == $ageValue ? 'selected="true"' : '' ) }}>{{ $ageLabel }}</option>
+						<option value="{{ $ageValue }}" {{ ( $ageValue == old('age') ? 'selected="true"' : '' ) }}>{{ $ageLabel }}</option>
 					@endforeach
 				@endif
 					</select>
@@ -90,7 +87,7 @@
 				<div class="form-input radio-options">
 				@foreach ( $rider::getGenderOptions() as $genderValue => $genderLabel )
 					<div class="radio-option">
-						<input type="radio" name="Rider[gender]" value="{{ $genderValue }}" {{ ( $genderValue == $rider->gender ? 'checked="true"' : '' ) }} />
+						<input type="radio" name="Rider[gender]" value="{{ $genderValue }}" {{ ( $genderValue == old('gender') ? 'checked="true"' : '' ) }} />
 						<label>{{ $genderLabel }}</label>
 					</div>
 				@endforeach
@@ -99,7 +96,7 @@
 
 			<div class="form-element">
 				<label>&nbsp;</label>
-				<div class="form-input"><input type="submit" name="process" value="Save" class="button save" /></div>
+				<div class="form-input"><input type="submit" name="process" value="Save" class="button submit save" /></div>
 			</div>
 
 		</form>

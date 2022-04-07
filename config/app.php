@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool) env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://cca.raam'),
 
     'asset_url' => env('ASSET_URL'),
 
@@ -139,7 +139,7 @@ return [
     'providers' => [
 
         /*
-         * Cycling Clubs Association Framework Service Providers...
+         * Laravel Framework Service Providers...
          */
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,

@@ -5,6 +5,8 @@
 ?>
 @extends('layouts.app')
 
+@section('title') {{'Riders'}} @endsection
+
 @section('content')
 
 	<div class="content-container">
