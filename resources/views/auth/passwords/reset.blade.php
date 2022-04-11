@@ -9,7 +9,9 @@
 
 @section('content')
 
-	<div class="content-container">
+<div class="admin content-block container pad-vertically">
+	<div class="white-container">
+
 		@if ( Session::has('success') )
 			<p class="alert alert-success">{{ Session::get('success') }}</p>
 		@endif
@@ -56,6 +58,8 @@
 				<div class="form-input"><input type="submit" name="process" value="Reset Password" class="button submit" /></div>
 			</div>
 		</form>
+
 	</div>
+</div>
 
 @endsection

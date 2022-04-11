@@ -17,7 +17,6 @@ class RiderFactory extends Factory
 			'grading' => $this->faker->numberBetween(\App\Models\Rider::GRADING_LOWER, \App\Models\Rider::GRADING_UPPER),
 			'age' => $this->faker->numberBetween(\App\Models\Rider::AGE_LOWER, \App\Models\Rider::AGE_UPPER),
 			'gender' => $this->faker->randomElement(array_keys(\App\Models\Rider::getGenderOptions())),
-			'club_id' => \App\Models\Club::all()->random()->id,
 		];
 	}
 }

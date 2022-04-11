@@ -180,7 +180,7 @@ class Race extends Model
 			}
 			else
 			{
-				$route = route('/races/' . ( empty($this->id) ? 'create/' : 'details/' . $this->id ));
+				$route = route('/races/' . ( !$this->exists ? 'create/' : 'details/' . $this->id ));
 				$rv = redirect(route($route))->with('error', 'An error occured saving details for the race.');
 			}
 		}

@@ -4,8 +4,12 @@
 
 @section('content')
 
-<h1>Dashboard</h1>
+	<div class="content-block container">
+		<h1>Dashboard</h1>
 
-<p>This is some sample code written by Robert Alfaro.</p>
+		<p>Welcome {{ Auth::user()->getFullName() }}</p>
+
+		<p>This is some sample code written by Robert Alfaro.</p>
+	</div>
 
 @endsection

@@ -106,7 +106,7 @@ class Club extends Model
 			}
 			else
 			{
-				$route = route('/clubs/' . ( empty($this->id) ? 'create/' : 'details/' . $this->id ));
+				$route = route('/clubs/' . ( !$this->exists ? 'create/' : 'details/' . $this->id ));
 				$rv = redirect(route($route))->with('error', 'An error occured saving details for the club.');
 			}
 		}
@@ -115,7 +115,7 @@ class Club extends Model
 	}
 
 	/**
-	 * Get the set of carbon calculations that match the specified search term
+	 * Get the set of Clubs that match the specified search term
 	 * @param string $keyword
 	 * @param int|NULL $statesId
 	 * @return Club[]

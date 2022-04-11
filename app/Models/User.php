@@ -1,18 +1,19 @@
 <?php
 namespace App\Models;
 
+use Auth;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Foundation\Auth\User as Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use App\Models\Traits\StatusTrait;
 
-class User extends Authenticatable
+class User extends Model
 {
 	use HasApiTokens, HasFactory, Notifiable, Notifiable, StatusTrait;
 
@@ -78,30 +79,37 @@ class User extends Authenticatable
 	 * Get a configured validator for validating the data in the model
 	 * @return \Illuminate\Contracts\Validation\Validator
 	 */
-	protected function validator()
+	public function validator()
 	{
 		$data = $this->attributesToArray();
 
 		return Validator::make($data, [
-			'usersId' => ['integer'], // primary key
+			'id' => ['integer'], // primary key
 			'first_name' => ['required', 'string', 'max:100'],
 			'surname' => ['required', 'string', 'max:100'],
-			'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($this->usersId, 'usersId')],
+			'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($this->id, 'id')],
 			'password' => ['min:6', 'max:30', 'confirmed'],
 			'password_confirmation' => ['same:password'],
-			'role' => [Rule::in([self::ROLE_ADMIN, self::ROLE_GENERAL])],
-			'club_id' => ['integer', 'min:1'], // required foreign key
+			'role' => [Rule::in([self::ROLE_ADMIN, self::ROLE_RIDER, self::ROLE_CLUB])],
+			'club_id' => ['integer', 'min:1', 'nullable'], // required foreign key
 			'status' => [Rule::in([self::$STATUS_ACTIVE, self::$STATUS_INACTIVE])],
 			'remember_token' => ['string', 'nullable', 'max:100'],
 		]);
 	}
 
 	/**
-	 * Store details for the user
-	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\Response
+	 * Get the Club for the Rider
 	 */
-	public function storeDetails( Request $request )
+	public function club()
+	{
+		return $this->belongsTo('App\Models\Club');
+	}
+
+	/**
+	 * Fill the attributes for the model safely with the specified data
+	 * @param array $data
+	 */
+	public function fillAttributesSafely($data)
 	{
 		$loggedInUser = Auth::user();
 		if ( is_object($loggedInUser) && $loggedInUser->role == self::ROLE_ADMIN )
@@ -113,21 +121,36 @@ class User extends Authenticatable
 			$attributeNames = ['first_name', 'surname', 'email'];
 		}
 
+		// Set the attributes the user is allowed to fill
+		$parameterNames = array_keys($data);
+		if ( is_array($parameterNames) )
+		{
+			$attributeNames = array_flip(array_intersect($attributeNames, $parameterNames));
+		}
+		$input = array_intersect_key($data, $attributeNames);
+		$this->fill($input);
+
+		// Hash the password (for new user)
 		if ( !$this->exists )
 		{
-			$attributeNames = array_merge($attributeNames, ['password', 'password_confirmation']);
+			$this->password = Hash::make('password');
 		}
-		$input = $request->only($attributeNames);
+	}
 
-		$validator = $this->validator($input);
+	/**
+	 * Store details for the user
+	 * @param \Illuminate\Http\Request $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function storeDetails( Request $request )
+	{
+		$validator = $this->validator();
 		if ( $validator->fails() )
 		{
 			$rv = back()->withErrors($validator)->withInput();
 		}
 		else
 		{
-			$this->fill($input);
-
 			if ( $this->save() )
 			{
 				if ( strpos($request->path(), 'profile/') !== false )

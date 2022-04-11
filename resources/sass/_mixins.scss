@@ -1,0 +1,294 @@
+/* Mixins */
+
+// Set the max-width to fit break points
+@mixin content-container-width() {
+	width: 100%;
+
+	@media (min-width: $lg) {
+		max-width: $lg - 100px;
+	}
+
+	@media (min-width: $xl) {
+		max-width: $xl - 300px;
+	}
+
+	@media (min-width: $xxl) {
+		max-width: $xxl - 500px;
+	}
+}
+
+@mixin navigation-anchors($fontFamily:null, $fontSize:null) {
+	a {
+		color: $white;
+		text-decoration: none;
+		@if $fontFamily {
+			font-family: $fontFamily
+		}
+		@if $fontSize {
+			font-size: $fontSize
+		}
+
+		&:hover {
+			color: $yellow;
+			text-decoration: underline;
+			@if $fontFamily {
+				font-family: $fontFamily
+			}
+			@if $fontSize {
+				font-size: $fontSize
+			}
+		}
+	}
+}
+
+// Set equal margin across break points. Allows multiplier for customisation
+@mixin margin-responsive($multiplier:null) {
+	margin: $margin-xs $margin-xs;
+
+	@if $multiplier {
+		@media (min-width: $md) {
+			margin: ($margin-md * $multiplier) ($margin-md * $multiplier);
+		}
+
+		@media (min-width: $lg) {
+			margin: ($margin-lg * $multiplier) ($margin-lg * $multiplier);
+		}
+
+		@media (min-width: $xl) {
+			margin: ($margin-xl * $multiplier) ($margin-xl * $multiplier);
+		}
+
+		@media (min-width: $xxl) {
+			margin: ($margin-xxl * $multiplier) ($margin-xxl * $multiplier);
+		}
+	}
+	@else {
+		@media (min-width: $xs) {
+			margin: $margin-xs $margin-xs;
+		}
+		@media (min-width: $md) {
+			margin: $margin-md $margin-md;
+		}
+
+		@media (min-width: $lg) {
+			margin: $margin-lg $margin-lg;
+		}
+
+		@media (min-width: $xl) {
+			margin: $margin-xl $margin-xl;
+		}
+
+		@media (min-width: $xxl) {
+			margin: $margin-xxl $margin-xxl;
+		}
+	}
+}
+
+// Set equal padding across break points. Allows multiplier for customisation
+@mixin padding-responsive($multiplier:null) {
+	padding: $padding-xs $padding-xs;
+
+	@if $multiplier {
+		@media (min-width: $md) {
+			padding: ($padding-md * $multiplier) ($padding-md * $multiplier);
+		}
+
+		@media (min-width: $lg) {
+			padding: ($padding-lg * $multiplier) ($padding-lg * $multiplier);
+		}
+
+		@media (min-width: $xl) {
+			padding: ($padding-xl * $multiplier) ($padding-xl * $multiplier);
+		}
+
+		@media (min-width: $xxl) {
+			padding: ($padding-xxl * $multiplier) ($padding-xxl * $multiplier);
+		}
+	}
+	@else {
+		@media (min-width: $xs) {
+			padding: $padding-xs $padding-xs;
+		}
+		@media (min-width: $md) {
+			padding: $padding-md $padding-md;
+		}
+
+		@media (min-width: $lg) {
+			padding: $padding-lg $padding-lg;
+		}
+
+		@media (min-width: $xl) {
+			padding: $padding-xl $padding-xl;
+		}
+
+		@media (min-width: $xxl) {
+			padding: $padding-xxl $padding-xxl;
+		}
+	}
+}
+
+// Set horizontal padding across break points. Allows multiplier for customisation
+@mixin h-padding-responsive($multiplier:null) {
+	padding-left: $horizontal-padding-xs;
+	padding-right: $horizontal-padding-xs;
+
+	@if $multiplier {
+		@media (min-width: $md) {
+			padding-left: $horizontal-padding-md * $multiplier;
+			padding-right: $horizontal-padding-md * $multiplier;
+		}
+
+		@media (min-width: $lg) {
+			padding-left: $horizontal-padding-lg * $multiplier;
+			padding-right: $horizontal-padding-lg * $multiplier;
+		}
+
+		@media (min-width: $xl) {
+			padding-left: $horizontal-padding-xl * $multiplier;
+			padding-right: $horizontal-padding-xl * $multiplier;
+		}
+
+		@media (min-width: $xxl) {
+			padding-left: $horizontal-padding-xxl * $multiplier;
+			padding-right: $horizontal-padding-xxl * $multiplier;
+		}
+	}
+	@else {
+		@media (min-width: $xs) {
+			padding-left: $horizontal-padding-xs;
+			padding-right: $horizontal-padding-xs;
+		}
+		@media (min-width: $md) {
+			padding-left: $horizontal-padding-md;
+			padding-right: $horizontal-padding-md;
+		}
+
+		@media (min-width: $lg) {
+			padding-left: $horizontal-padding-lg;
+			padding-right: $horizontal-padding-lg;
+		}
+
+		@media (min-width: $xl) {
+			padding-left: $horizontal-padding-xl;
+			padding-right: $horizontal-padding-xl;
+		}
+
+		@media (min-width: $xxl) {
+			padding-left: $horizontal-padding-xxl;
+			padding-right: $horizontal-padding-xxl;
+		}
+	}
+}
+
+// Set vertical padding across break points. Allows multiplier for customisation
+@mixin v-padding-responsive($multiplier:null) {
+	@if $multiplier {
+		padding-top: $vertical-padding-xs;
+		padding-bottom: $vertical-padding-xs;
+
+		@media (min-width: $md) {
+			padding-top: $vertical-padding-md * $multiplier;
+			padding-bottom: $vertical-padding-md * $multiplier;
+		}
+
+		@media (min-width: $lg) {
+			padding-top: $vertical-padding-lg * $multiplier;
+			padding-bottom: $vertical-padding-lg * $multiplier;
+		}
+
+		@media (min-width: $xl) {
+			padding-top: $vertical-padding-lg * $multiplier;
+			padding-bottom: $vertical-padding-lg * $multiplier;
+		}
+
+		@media (min-width: $xxl) {
+			padding-top: $padding-xxl * $multiplier;
+			padding-bottom: $padding-xxl * $multiplier;
+		}
+	}
+	@else {
+		padding-top: $vertical-padding-xs;
+		padding-bottom: $vertical-padding-xs;
+
+		@media (min-width: $md) {
+			padding-top: $vertical-padding-md;
+			padding-bottom: $vertical-padding-md;
+		}
+
+		@media (min-width: $lg) {
+			padding-top: $vertical-padding-lg;
+			padding-bottom: $vertical-padding-lg;
+		}
+
+		@media (min-width: $xl) {
+			padding-top: $vertical-padding-xl;
+			padding-bottom: $vertical-padding-xl;
+		}
+
+		@media (min-width: $xxl) {
+			padding-top: $vertical-padding-xxl;
+			padding-bottom: $vertical-padding-xxl;
+		}
+	}
+}
+
+// Set element to display as flex row
+@mixin flex-row($wrap:null) {
+	display: flex;
+	flex-direction: row;
+	@if $wrap {
+		flex-wrap: $wrap;
+	}
+	@else {
+		flex-wrap: wrap;
+	}
+	box-sizing: border-box;
+}
+
+// Set element to display as flex column
+@mixin flex-col($wrap:null) {
+	display: flex;
+	flex-direction: column;
+	@if $wrap {
+		flex-wrap: $wrap;
+	}
+	@else {
+		flex-wrap: wrap;
+	}
+	box-sizing: border-box;
+}
+
+// Set font-sizes across break points
+@mixin font-responsive($size_xs:null, $size_sm:null, $size_md:null, $size_lg:null, $size_xl:null, $size_xxl:null) {
+	font-size: $size_xs;
+
+	@if $size_sm {
+		@media(min-width: $sm) {
+			font-size: $size_sm;
+		}
+	}
+
+	@if $size_md {
+		@media(min-width: $md) {
+			font-size: $size_md;
+		}
+	}
+
+	@if $size_lg {
+		@media(min-width: $lg) {
+			font-size: $size_lg;
+		}
+	}
+
+	@if $size_xl {
+		@media(min-width: $xl) {
+			font-size: $size_xl;
+		}
+	}
+
+	@if $size_xxl {
+		@media(min-width: $xxl) {
+			font-size: $size_xxl;
+		}
+	}
+}

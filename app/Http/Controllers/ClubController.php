@@ -50,7 +50,7 @@ class ClubController extends PublicController
 			// If we haven't searched get all items as a paginated set
 			if ( !$searched )
 			{
-				$clubs = $club->paginate();
+				$clubs = $club->paginate($club::PAGINATION_SIZE);
 			}
 
 			if ( count($clubs) > 0 )
@@ -99,9 +99,9 @@ class ClubController extends PublicController
 			if ( $request->isMethod('post') )
 			{
 				$data = $request->get('Club');
-				Utilities::fillFromFilteredData($club, $data);
+				\App\Helpers\Utilities::fillFromFilteredData($club, $data);
 
-				$rv = $club->storeDetails($request);
+				$rv = $club->storeDetails();
 			}
 
 			if ( $rv === NULL )
@@ -135,9 +135,9 @@ class ClubController extends PublicController
 			if ( $request->isMethod('post') )
 			{
 				$data = $request->get('Club');
-				Utilities::fillFromFilteredData($club, $data);
+				\App\Helpers\Utilities::fillFromFilteredData($club, $data);
 
-				$rv = $club->storeDetails($request);
+				$rv = $club->storeDetails();
 			}
 			else
 			{

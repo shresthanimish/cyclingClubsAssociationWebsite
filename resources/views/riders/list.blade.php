@@ -10,63 +10,62 @@
 
 @section('content')
 
-<div class="content-container">
-	@if ( Session::has('success') )
-		<p class="alert alert-success">{{ Session::get('success') }}</p>
-	@endif
+<div class="admin content-block container pad-vertically">
+	<div class="white-container">
 
-	@if ( Session::has('error') || $errors->any() )
-		<p class="alert alert-error">{{ Session::get('error') }}</p>
-	@endif
+		@if ( Session::has('success') )
+			<p class="alert alert-success">{{ Session::get('success') }}</p>
+		@endif
 
-	<h1>Riders</h1>
+		@if ( Session::has('error') || $errors->any() )
+			<p class="alert alert-error">{{ Session::get('error') }}</p>
+		@endif
 
-	<div class="button"><a href="{{ route('/riders/create') }}">Create Rider</a></div>
+		<h1>Riders</h1>
 
-	@include('riders._search', [
-		'rider' => $rider,
-		'keyword' => $keyword,
-		'gender' => $gender,
-		'clubsId' => $clubsId,
-		'clubs' => App\Models\Club::get(),
-	])
+		<div class="button"><a href="{{ route('/riders/create') }}">Create Rider</a></div>
 
-	<div id="ridersList" class="riders-list list-container">
+		@include('riders._search', [
+			'rider' => $rider,
+			'keyword' => $keyword,
+			'gender' => $gender,
+			'clubsId' => $clubsId,
+			'clubs' => App\Models\Club::get(),
+		])
 
-	@if ( isset($riders) && count($riders) )
+		<div id="ridersList" class="riders-list list-container">
 
-		<div class="list-items">
-			<div class="rider-item list-header list-item">
-				<div class="first-name list-field">First Name</div>
-				<div class="surname list-field">Surname</div>
-				<div class="grading list-field">Grading</div>
-				<div class="age list-field">Age</div>
-				<div class="gender list-field">Gender</div>
-				<div class="club list-field">Club</div>
-				<div class="actions list-field">&nbsp;</div>
+		@if ( isset($riders) && count($riders) )
+
+			<div class="rider-items list-items">
+				<div class="rider-item row list-header list-item">
+					<div class="first-name column">First Name</div>
+					<div class="surname column">Surname</div>
+					<div class="grading column">Grading</div>
+					<div class="age column">Age</div>
+					<div class="gender column">Gender</div>
+					<div class="club column">Club</div>
+					<div class="actions column align-right">&nbsp;</div>
+				</div>
+
+			@foreach ( $riders as $rider )
+
+				<div class="rider-item row list-item">
+					<div class="first-name column">{{ isset($rider->user) ? $rider->user->first_name : 'n/a' }}</div>
+					<div class="last-name column">{{ isset($rider->user) ? $rider->user->surname : 'n/a' }}</div>
+					<div class="grading column">{{ $rider->grading }}</div>
+					<div class="age column">{{ $rider->age }}</div>
+					<div class="gender column">{{ $rider->getGender() }}</div>
+					<div class="club column">{{ ( isset($rider->user) && isset($rider->user->club) ? $rider->user->club->title : 'n/a' ) }}</div>
+					<div class="actions column align-right"><a href="{{ route('/riders/details', $rider->id) }}">View</a></div>
+				</div>
+
+			@endforeach
+
 			</div>
 
-		@foreach ( $riders as $rider )
-
-			<div class="rider-item list-item">
-				<div class="first-name list-field">{{ $rider->first_name }}</div>
-				<div class="last-name list-field">{{ $rider->surname }}</div>
-				<div class="grading list-field">{{ $rider->grading }}</div>
-				<div class="age list-field">{{ $rider->age }}</div>
-				<div class="gender list-field">{{ $rider->getGender() }}</div>
-				<div class="club list-field">{{ ( isset($rider->club) ? $rider->club->title : 'n/a' ) }}</div>
-				<div class="actions list-field"><a href="{{ route('/riders/details', $rider->id) }}">View</a></div>
-			</div>
-
-		@endforeach
-
-		</div>
-
-	@else
-
-		<p>No riders exist.</p>
-
-	@endif
+			{{ $riders->links('vendor.pagination.custom') }}
+		@endif
 
 	</div>
 </div>

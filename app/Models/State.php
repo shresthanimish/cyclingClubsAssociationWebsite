@@ -34,7 +34,7 @@ class State extends Model
 	 * Get a configured validator for validating the data in the model
 	 * @return \Illuminate\Contracts\Validation\Validator
 	 */
-	protected function validator()
+	public function validator()
 	{
 		$data = $this->attributesToArray();
 

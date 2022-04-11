@@ -52,7 +52,7 @@ class RaceController extends PublicController
 			// If we haven't searched get all items as a paginated set
 			if ( !$searched )
 			{
-				$races = $race->paginate();
+				$races = $race->paginate(Race::PAGINATION_SIZE);
 			}
 
 			if ( count($races) > 0 )
@@ -104,9 +104,9 @@ class RaceController extends PublicController
 			if ( $request->isMethod('post') )
 			{
 				$data = $request->get('Race');
-				Utilities::fillFromFilteredData($race, $data);
+				\App\Helpers\Utilities::fillFromFilteredData($race, $data);
 
-				$rv = $race->storeDetails($request);
+				$rv = $race->storeDetails();
 			}
 
 			if ( $rv === NULL )
@@ -140,9 +140,9 @@ class RaceController extends PublicController
 			if ( $request->isMethod('post') )
 			{
 				$data = $request->get('Race');
-				Utilities::fillFromFilteredData($race, $data);
+				\App\Helpers\Utilities::fillFromFilteredData($race, $data);
 
-				$rv = $race->storeDetails($request);
+				$rv = $race->storeDetails();
 			}
 			else
 			{

@@ -9,7 +9,8 @@
 
 @section('content')
 
-	<div class="content-container">
+<div class="admin content-block container pad-vertically">
+	<div class="white-container">
 
 		@if ( Session::has('success') )
 			<p class="alert alert-success">{{ Session::get('success') }}</p>
@@ -81,6 +82,6 @@
 		</form>
 
 	</div>
-
+</div>
 
 @endsection

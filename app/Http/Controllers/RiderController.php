@@ -8,6 +8,7 @@ use App\Models\Rider;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
 
 class RiderController extends PublicController
 {
@@ -51,7 +52,7 @@ class RiderController extends PublicController
 			// If we haven't searched get all items as a paginated set
 			if ( !$searched )
 			{
-				$riders = $rider->paginate();
+				$riders = $rider->paginate($rider::PAGINATION_SIZE);
 			}
 
 			if ( count($riders) > 0 )
@@ -97,20 +98,26 @@ class RiderController extends PublicController
 			$rv = NULL;
 
 			$rider = new \App\Models\Rider;
+			$user = new \App\Models\User;
 
 			if ( $request->isMethod('post') )
 			{
 				$data = $request->get('Rider');
-				Utilities::fillFromFilteredData($rider, $data);
+				\App\Helpers\Utilities::fillFromFilteredData($rider, $data);
 
-				$rv = $rider->storeDetails($request);
+				$data = $request->get('User');
+				$user->fillAttributesSafely($data);
+
+				$rv = $rider->storeDetails($user);
 			}
 
 			if ( $rv === NULL )
 			{
 				$rv = view('riders.details')->with([
 					'rider' => $rider,
-					'route' => route('/riders/create')
+					'user' => $user,
+					'route' => route('/riders/create'),
+					'create' => true,
 				]);
 			}
 		}
@@ -133,19 +140,25 @@ class RiderController extends PublicController
 		if ( is_object($loggedInUser) && $loggedInUser->role == \App\Models\User::ROLE_ADMIN )
 		{
 			$rider = \App\Models\Rider::findOrFail($id);
+			$user = \App\Models\User::findOrFail($rider->user_id);
 
 			if ( $request->isMethod('post') )
 			{
 				$data = $request->get('Rider');
-				Utilities::fillFromFilteredData($rider, $data);
+				\App\Helpers\Utilities::fillFromFilteredData($rider, $data);
 
-				$rv = $rider->storeDetails($request);
+				$data = $request->get('User');
+				$user->fillAttributesSafely($data);
+
+				$rv = $rider->storeDetails($user);
 			}
 			else
 			{
 				$rv = view('riders.details')->with([
 					'rider' => $rider,
-					'route' => route('/riders/details', $rider->id)
+					'user' => $user,
+					'route' => route('/riders/details', $rider->id),
+					'create' => false,
 				]);
 			}
 		}

@@ -10,66 +10,64 @@
 
 @section('content')
 
-<div class="content-container">
-	@if ( Session::has('success') )
-		<p class="alert alert-success">{{ Session::get('success') }}</p>
-	@endif
+<div class="admin content-block container pad-vertically">
+	<div class="white-container">
 
-	@if ( Session::has('error') || $errors->any() )
-		<p class="alert alert-error">{{ Session::get('error') }}</p>
-	@endif
+		@if ( Session::has('success') )
+			<p class="alert alert-success">{{ Session::get('success') }}</p>
+		@endif
 
-	<h1>Races</h1>
+		@if ( Session::has('error') || $errors->any() )
+			<p class="alert alert-error">{{ Session::get('error') }}</p>
+		@endif
 
-	<div class="button"><a href="{{ route('/races/create') }}">Create Race</a></div>
+		<h1>Races</h1>
 
-@include('races._search', [
-	'race' => $race,
-	'keyword' => $keyword,
-	'clubsId' => $clubsId,
-	'statesId' => $statesId,
-	'status' => $status,
-])
+		<div class="button"><a href="{{ route('/races/create') }}">Create Race</a></div>
 
-	<div id="racesList" class="races-list list-container">
+	@include('races._search', [
+		'race' => $race,
+		'keyword' => $keyword,
+		'clubsId' => $clubsId,
+		'statesId' => $statesId,
+		'status' => $status,
+	])
 
-@if ( isset($races) && count($races) )
+		<div id="racesList" class="races-list list-container">
 
-		<div class="list-items">
-			<div class="rider-item list-header list-item">
-				<div class="title list-field">Title</div>
-				<div class="race-date list-field">Race Date</div>
-				<div class="start-time list-field">Start Time</div>
-				<div class="address list-field">Address</div>
-				<div class="suburb list-field">Suburb</div>
-				<div class="postcode list-field">Postcode</div>
-				<div class="state list-field">State</div>
-				<div class="status list-field">Status</div>
-				<div class="actions list-field">&nbsp;</div>
+	@if ( isset($races) && count($races) )
+
+			<div class="race-items list-items">
+				<div class="race-item row list-header list-item">
+					<div class="title column column-2">Title</div>
+					<div class="race-date column column-2">Race Date</div>
+					<div class="address column column-2">Address</div>
+					<div class="suburb column column-2">Suburb</div>
+					<div class="postcode column column-1">Postcode</div>
+					<div class="state column column-1">State</div>
+					<div class="status column column-1">Status</div>
+					<div class="actions column column-1 align-right">&nbsp;</div>
+				</div>
+
+		@foreach ( $races as $race )
+
+				<div class="race-item row list-item">
+					<div class="title column column-2">{{ $race->title }}</div>
+					<div class="race-date column column-2">{{ $race->getRaceDate() }}<br />{{ $race->start_time }}</div>
+					<div class="address column column-2">{{ $race->address }}</div>
+					<div class="suburb column column-2">{{ $race->suburb }}</div>
+					<div class="postcode column column-1">{{ $race->postcode }}</div>
+					<div class="state column column-1">{{ ( isset($race->state) ? $race->state->name : 'n/a' ) }}</div>
+					<div class="status column column-1">{{ $race->getStatus() }}</div>
+					<div class="actions column column-1 align-right"><a href="{{ route('/races/details', $race->id) }}">View</a></div>
+				</div>
+
+		@endforeach
+
 			</div>
 
-	@foreach ( $races as $race )
-
-			<div class="rider-item list-item">
-				<div class="title list-field">{{ $race->title }}</div>
-				<div class="race-date list-field">{{ $race->getRaceDate() }}</div>
-				<div class="start-time list-field">{{ $race->start_time }}</div>
-				<div class="address list-field">{{ $race->address }}</div>
-				<div class="suburb list-field">{{ $race->suburb }}</div>
-				<div class="postcode list-field">{{ $race->postcode }}</div>
-				<div class="state list-field">{{ ( isset($race->state) ? $race->state->name : 'n/a' ) }}</div>
-				<div class="status list-field">{{ $race->getStatus() }}</div>
-				<div class="actions list-field"><a href="{{ route('/races/details', $race->id) }}">View</a></div>
-			</div>
-
-	@endforeach
-
-		</div>
-@else
-
-		<p>No races exist.</p>
-
-@endif
+		{{ $races->links('vendor.pagination.custom') }}
+	@endif
 
 	</div>
 </div>

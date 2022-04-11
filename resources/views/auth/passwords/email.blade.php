@@ -9,7 +9,8 @@
 
 @section('content')
 
-	<div class="content-container">
+<div class="admin content-block container pad-vertically">
+	<div class="white-container">
 
 	@if ( session('status') )
 		<div class="alert alert-success" role="alert">
@@ -39,5 +40,6 @@
 		</form>
 
 	</div>
+</div>
 
 @endsection

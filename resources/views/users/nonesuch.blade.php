@@ -9,7 +9,9 @@
 
 @section('content')
 
-	<div class="content-container">
+<div class="admin content-block container pad-vertically">
+	<div class="white-container">
+
 		<h1>Accounts</h1>
 
 		<div class="button"><a href="{{ route('/users/create') }}">Create User</a></div>
@@ -28,5 +30,6 @@
 		<p class="error-message">No accounts {{ ($searched ? 'matched your search criteria. Please try again.' : 'currently exist.' ) }}</p>
 
 	</div>
+</div>
 
 @endsection

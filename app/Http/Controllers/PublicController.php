@@ -83,7 +83,7 @@ class PublicController extends Controller
 	public function logout()
 	{
 		Auth::logout();
-		return redirect()->route('/index');
+		return redirect()->route('/');
 	}
 
 }

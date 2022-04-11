@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['web']], function () {
 
 	// Public Routes
-	Route::get('/', 'App\Http\Controllers\PublicController@index');
+	Route::get('/', 'App\Http\Controllers\PublicController@index')->name('/');
 	Route::get('/about', 'App\Http\Controllers\PublicController@about')->name('about-us');
 	Route::get('/clubs', 'App\Http\Controllers\PublicController@clubs')->name('clubs');
 	Route::get('/races', 'App\Http\Controllers\PublicController@races')->name('races');

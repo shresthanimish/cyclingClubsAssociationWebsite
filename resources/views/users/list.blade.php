@@ -10,63 +10,59 @@
 
 @section('content')
 
-<div class="content-container">
-	@if ( Session::has('success') )
-		<p class="alert alert-success">{{ Session::get('success') }}</p>
-	@endif
+<div class="admin content-block container pad-vertically">
+	<div class="white-container">
+		@if ( Session::has('success') )
+			<p class="alert alert-success">{{ Session::get('success') }}</p>
+		@endif
 
-	@if ( Session::has('error') || $errors->any() )
-		<p class="alert alert-error">{{ Session::get('error') }}</p>
-	@endif
+		@if ( Session::has('error') || $errors->any() )
+			<p class="alert alert-error">{{ Session::get('error') }}</p>
+		@endif
 
-	<h1>Riders</h1>
+		<h1>Riders</h1>
 
-	<div class="button"><a href="{{ route('/users/create') }}">Create Account</a></div>
+		<div class="button"><a href="{{ route('/users/create') }}">Create Account</a></div>
 
-	@include('users._search', [
-		'user' => $user,
-		'keyword' => $keyword,
-		'role' => $role,
-		'status' => $status,
-		'clubsId' => $clubsId,
-		'clubs' => App\Models\Club::get(),
-	])
+		@include('users._search', [
+			'user' => $user,
+			'keyword' => $keyword,
+			'role' => $role,
+			'status' => $status,
+			'clubsId' => $clubsId,
+			'clubs' => App\Models\Club::get(),
+		])
 
-	<div id="usersList" class="users-list list-container">
+		<div id="usersList" class="users-list list-container">
 
 
-	@if ( isset($users) )
+		@if ( isset($users) )
 
-		<div class="list-items">
-			<div class="list-item list-header">
-				<div class="name list-field">Name</div>
-				<div class="email list-field">Email</div>
-				<div class="organisation list-field">Organisation</div>
-				<div class="role list-field">Role</div>
-				<div class="status list-field">Status</div>
-				<div class="actions list-field">&nbsp;</div>
+			<div class="user-items list-items">
+				<div class="user-item row list-item list-header">
+					<div class="name column column-3">Name</div>
+					<div class="email column column-5">Email</div>
+					<div class="role column column-2">Role</div>
+					<div class="status column column-1">Status</div>
+					<div class="actions column column-1 align-right">&nbsp;</div>
+				</div>
+
+			@foreach ( $users as $user )
+
+				<div class="user-item row list-item">
+					<div class="name column column-3">{{ $user->getFullName() }}</div>
+					<div class="email column column-5">{{ $user->email }}</div>
+					<div class="role column column-2">{{ $user->getRole($user->role) }}</div>
+					<div class="status column column-1">{{ $user->getStatus($user->status) }}</div>
+					<div class="actions column column-1 align-right"><a href="{{ route('/users/update', $user->id) }}">Update</a></div>
+				</div>
+
+			@endforeach
+
 			</div>
 
-		@foreach ( $users as $user )
-
-			<div class="list-item">
-				<div class="name list-field">{{ $user->getFullName() }}</div>
-				<div class="email list-field">{{ $user->email }}</div>
-				<div class="organisation list-field">{{ $user->organisation }}</div>
-				<div class="role list-field">{{ $user->getRole($user->role) }}</div>
-				<div class="status list-field">{{ $user->getStatus($user->status) }}</div>
-				<div class="actions list-field"><a href="{{ route('/users/update', $user->id) }}">Update</a></div>
-			</div>
-
-		@endforeach
-
-		</div>
-
-	@else
-
-		<p>No users exist.</p>
-
-	@endif
+			{{ $users->links('vendor.pagination.custom') }}
+		@endif
 
 	</div>
 </div>

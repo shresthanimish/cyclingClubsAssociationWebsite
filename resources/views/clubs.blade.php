@@ -4,8 +4,10 @@
 
 @section('content')
 
-<h1>Clubs</h1>
+	<div class="content-block container">
+		<h1>Clubs</h1>
 
-<p>This is some sample code written by Robert Alfaro.</p>
+		<p>This is some sample code written by Robert Alfaro.</p>
+	</div>
 
 @endsection

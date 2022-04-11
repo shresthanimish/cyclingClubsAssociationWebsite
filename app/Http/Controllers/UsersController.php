@@ -48,7 +48,7 @@ class UsersController extends Controller
 
 		if ( !$displayed )
 		{
-			$users = $user->paginate();
+			$users = $user->paginate($user::PAGINATION_SIZE);
 		}
 
 		$users->appends($appends);
@@ -89,6 +89,8 @@ class UsersController extends Controller
 
 		if ( $request->isMethod('post') )
 		{
+			$data = $request->get('User');
+			$user->fillAttributesSafely($data);
 			$rv = $user->storeDetails($request);
 		}
 		else
@@ -116,6 +118,8 @@ class UsersController extends Controller
 
 		if ( $request->isMethod('post') )
 		{
+			$data = $request->get('User');
+			$user->fillAttributesSafely($data);
 			$rv = $user->storeDetails($request);
 		}
 		else

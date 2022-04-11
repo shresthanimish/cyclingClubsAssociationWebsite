@@ -3,7 +3,6 @@
  * Form view to create/edit a Race
  */
 ?>
-
 		<form id="raceForm" action="{{ $route }}" method="post">
 			@csrf
 
@@ -15,9 +14,9 @@
 				<label>Club <span class="validation-error">&#42;</span></label>
 				<div class="form-input">
 				@if ( is_object($clubs) && count($clubs) )
-					<select name="Race[club_id]" class="select" required>
+					<select name="Race[club_id]" required autofocus class="select {{ $errors->has('club_id') ? ' invalid' : '' }}">
 					@foreach ( $clubs as $club )
-						<option value="{{ $club->id }}" {{ ( {{ $club->id == old('club_id') }} ? 'selected="true"' : '' ) }}>{{ $club->title }}</option>
+						<option value="{{ $club->id }}" {{ ( $club->id == old('club_id', $race->club_id) ? 'selected="true"' : '' ) }}>{{ $club->title }}</option>
 					@endforeach
 					</select>
 				@endif
@@ -30,7 +29,7 @@
 				@endif
 
 				<label>Title <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="text" name="Race[title]" value="{{ old('title') }}" class="input" /></div>
+				<div class="form-input"><input type="text" name="Race[title]" value="{{ old('title', $race->title) }}" required class="input {{ $errors->has('title') ? ' invalid' : '' }}" /></div>
 			</div>
 
 			<div class="form-element">
@@ -39,7 +38,7 @@
 				@endif
 
 				<label>Race Date <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="text" name="Race[race_date]" value="{{ old('race_date') }}" class="input race-date" /></div>
+				<div class="form-input"><input type="text" name="Race[race_date]" value="{{ old('race_date', $race->getRaceDate('d/m/Y')) }}" required class="input race-date  {{ $errors->has('race_date') ? ' invalid' : '' }}" /></div>
 			</div>
 
 			<div class="form-element">
@@ -48,7 +47,7 @@
 				@endif
 
 				<label>Start Time <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="text" name="Race[start_time]" value="{{ old('start_time') }}" class="input" /></div>
+				<div class="form-input"><input type="text" name="Race[start_time]" value="{{ old('start_time', $race->start_time) }}" required class="input {{ $errors->has('start_time') ? ' invalid' : '' }}" /></div>
 			</div>
 
 			<div class="form-element">
@@ -57,7 +56,7 @@
 				@endif
 
 				<label>Address <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="text" name="Race[address]" value="{{ old('address') }}" class="input" /></div>
+				<div class="form-input"><input type="text" name="Race[address]" value="{{ old('address', $race->address) }}" required class="input {{ $errors->has('email') ? ' invalid' : '' }}" /></div>
 			</div>
 
 			<div class="form-element">
@@ -66,7 +65,7 @@
 				@endif
 
 				<label>Suburb <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="text" name="Race[suburb]" value="{{ old('suburb') }}" class="input" /></div>
+				<div class="form-input"><input type="text" name="Race[suburb]" value="{{ old('suburb', $race->suburb) }}" required class="input {{ $errors->has('suburb') ? ' invalid' : '' }}" /></div>
 			</div>
 
 			<div class="form-element">
@@ -75,7 +74,7 @@
 				@endif
 
 				<label>Postcode <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="text" name="Race[postcode]" value="{{ old('postcode') }}" class="input" /></div>
+				<div class="form-input"><input type="text" name="Race[postcode]" value="{{ old('postcode', $race->postcode) }}" required class="input {{ $errors->has('email') ? ' invalid' : '' }}" /></div>
 			</div>
 
 			<div class="form-element">
@@ -86,9 +85,9 @@
 				<label>State <span class="validation-error">&#42;</span></label>
 				<div class="form-input">
 				@if ( is_object($states) && count($states) )
-					<select name="Race[state_id]" class="select" required>
+					<select name="Race[state_id]" required class="select {{ $errors->has('state_id') ? ' invalid' : '' }}">
 					@foreach ( $states as $state )
-						<option value="{{ $state->id }}" {{ ( $state->id == {{ old('state_id') }} ? 'selected="true"' : '' ) }}>{{ $state->name }}</option>
+						<option value="{{ $state->id }}" {{ ( $state->id == old('state_id', $race->state_id) ? 'selected="true"' : '' ) }}>{{ $state->name }}</option>
 					@endforeach
 					</select>
 				@endif
@@ -105,7 +104,7 @@
 				<div class="form-input">
 				@foreach ( App\Models\Race::getStatusOptions() as $statusValue => $statusLabel )
 					<div class="radio-option">
-						<input type="radio" name="Race[status]" value="{{ $statusValue }}" {{ ( $statusValue == {{ old('status') }} ? 'checked="true"' : '' ) }} />
+						<input type="radio" name="Race[status]" value="{{ $statusValue }}" {{ ( $statusValue == old('status', $race->status) ? 'checked="true"' : '' ) }} class=" {{ $errors->has('status') ? ' invalid' : '' }}" />
 						<label>{{ $statusLabel }}</label>
 					</div>
 				@endforeach

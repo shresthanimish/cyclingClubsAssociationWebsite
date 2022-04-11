@@ -1,0 +1,32 @@
+footer {
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: $footer-navigation-height;
+	background: $light-blue;
+	border-top: 1px solid $light-grey;
+	overflow: hidden;
+
+	nav {
+		width: 100%;
+		height: $footer-navigation-height;
+
+		ul {
+			margin: 0;
+			padding: 0;
+			max-height: $footer-navigation-height;
+			line-height: 1;
+		}
+
+		li {
+			padding: 0 3em;
+			line-height: $footer-navigation-height;
+		}
+
+		p {
+			margin: 0;
+			font-size: 0.675rem;
+			line-height: $footer-navigation-height;
+		}
+	}
+}

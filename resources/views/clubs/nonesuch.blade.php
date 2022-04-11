@@ -9,21 +9,23 @@
 
 @section('content')
 
-<div class="content-container">
-	<h1>Clubs</h1>
+<div class="admin content-block container pad-vertically">
+	<div class="white-container">
 
-	<div class="button"><a href="{{ route('/clubs/create') }}">Create Club</a></div>
+		<h1>Clubs</h1>
 
-@if ( $searched )
-	@include('clubs._search', [
-		'club' => $club,
-		'keyword' => $keyword,
-		'statesId' => $statesId,
-	])
-@endif
+		<div class="button"><a href="{{ route('/clubs/create') }}">Create Club</a></div>
 
-	<p class="error-message">No clubs {{ ($searched ? 'matched your search criteria. Please try again.' : 'currently exist.' ) }}</p>
+	@if ( $searched )
+		@include('clubs._search', [
+			'club' => $club,
+			'keyword' => $keyword,
+			'statesId' => $statesId,
+		])
+	@endif
 
+		<p class="error-message">No clubs {{ ($searched ? 'matched your search criteria. Please try again.' : 'currently exist.' ) }}</p>
+	</div>
 </div>
 
 @endsection

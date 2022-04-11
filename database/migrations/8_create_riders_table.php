@@ -18,7 +18,6 @@ return new class extends Migration
 			$table->tinyInteger('grading');
 			$table->tinyInteger('age');
 			$table->enum('gender', array_keys(App\Models\Rider::getGenderOptions()));
-			$table->foreignIdFor(App\Models\Club::class)->constrained();
 		});
 	}
 

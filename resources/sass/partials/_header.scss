@@ -1,0 +1,80 @@
+header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: $navigation-height;
+	z-index: 999;
+	background: $black;
+	border-bottom: 1px solid $light-grey;
+	overflow: hidden;
+
+	nav {
+		width: 100%;
+
+		&.primary-navigation {
+			height: $navigation-height;
+			ul {
+				margin: 0;
+				padding: 0;
+				max-height: $navigation-height;
+				line-height: 1;
+			}
+
+			li {
+				padding: 0 3em;
+				line-height: $navigation-height;
+				text-transform: uppercase;
+
+				@include navigation-anchors($font-headings);
+			}
+		}
+		&.admin-navigation {
+			height: $admin-navigation-height;
+			background-color: $dark-grey;
+			ul {
+				margin: 0 auto;
+				padding: 0;
+				max-height: $admin-navigation-height;
+				line-height: 1;
+				padding: 0;
+			}
+
+			li {
+				padding: 0 2em;
+				line-height: $admin-navigation-height;
+
+				@include navigation-anchors($font-primary, '0.8rem');
+			}
+		}
+
+		.logo {
+			width: 10em;
+			height: $navigation-height;
+			line-height: $navigation-height;
+			background-color: $sky-blue;
+			text-align: center;
+
+			@include navigation-anchors($font-primary);
+		}
+
+		.login {
+			text-align: center;
+
+			.button {
+				margin-bottom: 0;
+				padding: 0.275em 1em;
+				max-width: auto;
+			}
+			p {
+				margin: 0.5em 0 0 0;
+				font-size: 0.675rem;
+
+				@include navigation-anchors($font-headings);
+			}
+		}
+	}
+}
+header.admin {
+	height: $admin-navigation-height + $navigation-height;
+}

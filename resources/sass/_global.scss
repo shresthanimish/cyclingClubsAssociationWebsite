@@ -1,0 +1,193 @@
+/* Global layout styles */
+
+/***** CONTAINERS *****/
+.content-block {
+	@include content-container-width();
+
+	&.admin {
+		min-height: calc(100vh - ($navigation-height + $admin-navigation-height));
+	}
+}
+
+.container-padded,
+.container {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.container-padded {
+	@include padding-responsive(0.85);
+}
+
+.white-container {
+	background-color: $white;
+
+	@include padding-responsive(0.85);
+	@include margin-responsive(0.85);
+}
+
+
+/***** GENERAL *****/
+.no-bullet {
+	list-style-type: none;
+}
+.align-left {
+	text-align: left;
+}
+.align-center {
+	text-align: center;
+}
+.align-right {
+	text-align: right;
+}
+
+.pad-horizontally {
+	@include h-padding-responsive(.85);
+}
+.pad-vertically {
+	@include v-padding-responsive(.85);
+}
+
+/***** FORMS *****/
+label {
+	display: inline-block;
+}
+input, select, textarea {
+	padding: 0.125em;
+	font-family: $font-primary;
+	font-size: 1rem;
+	color: $black;
+	background-color: $light-grey;
+	border: 0.0625em solid $medium-grey;
+}
+input:focus, select:focus, textarea:focus {
+	background-color: $white;
+	border: 0.0625em solid $dark-grey;
+}
+input.input,
+textarea.textarea {
+	width: 100%;
+}
+textarea.textarea {
+	height: 4em;
+}
+select.select {
+	width: 100%;
+}
+.form-element {
+	padding: 0.5em 0;
+}
+.form-element > label {
+	display: inline-block;
+	width: 8em;
+	margin-right: 1em;
+}
+.form-element > div.form-input {
+	display: inline-block;
+	width: calc(100% - 10em);
+}
+.form-element div.form-input > div {
+	display: inline-block;
+	min-width: 8em;
+}
+
+
+/***** IMAGES *****/
+img {
+	max-width: 100%;
+	height: auto;
+
+	&.fit {
+		width: 100%;
+		height: 100%;
+		object-position: center;
+
+		&.contain {
+			object-fit: contain;
+		}
+
+		&.cover {
+			object-fit: cover;
+		}
+	}
+}
+.background-image {
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+/***** BUTTONS *****/
+.button {
+	display: inline-block;
+	margin-bottom: 2em;
+	padding: 0.5em 2em;
+	max-width: 20em;
+	max-height: 2.5em;
+	height: auto;
+	font-size: 1rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	color: $white;
+	background-color: $dark-blue;
+	border: 0.0625em solid $black;
+	border-radius: 0.125em;
+	cursor: pointer;
+
+	&:hover {
+		background-color: $black;
+		border: 0.0625em solid $dark-blue;
+	}
+
+	&.back-button {
+		margin: 4em 0 0 0;
+	}
+
+	&.save {
+		background-color: $sky-blue;
+	}
+
+	a {
+		display: block;
+		text-transform: uppercase;
+		font-weight: 700;
+		text-decoration: none;
+		text-align: center;
+		color: $white;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+}
+
+
+/***** PAGINATION *****/
+
+nav.pagination .summary {
+	margin: 2em 0 0 0;
+	width: 100%;
+	height: 2em;
+	line-height: 2em;
+	text-align: center;
+
+	p {
+		font-size: 0.875rem;
+
+		span {
+			font-weight: 600;
+		}
+	}
+}
+nav.pagination svg.arrow {
+	padding: 0 0.5em;
+	width: 2em;
+	height: 2em;
+}
+nav.pagination a,
+nav.pagination span {
+	padding: 0 0.5em;
+	height: 2em;
+	line-height: 2em;
+}
+

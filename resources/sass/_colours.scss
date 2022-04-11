@@ -1,0 +1,67 @@
+// Global colours
+$white: rgb(255, 255, 255);
+$black: rgb(0, 0, 0);
+$dark-grey: rgb(60, 60, 60);
+$medium-grey: rgb(120, 120, 120);
+$light-grey: rgb(248, 248, 248);
+$cream: rgb(251, 247, 240);
+$dark-blue: rgb(34, 49, 63);
+$light-blue: rgb(228, 241, 254);
+$sky-blue: rgb(57, 138, 185);
+$orange: rgb(254, 126, 109);
+$yellow: rgb(255, 239, 161);
+
+// Lists
+$list-header-row: rgb(230, 230, 230);
+$list-row: $white;
+$list-alternate-row: $light-grey;
+
+// Background colours
+.bg-cream {
+	background-color: $cream;
+}
+
+.bg-dark-blue {
+	background-color: $dark-blue;
+}
+
+.bg-light-blue {
+	background-color: $light-blue;
+}
+
+.bg-pale-blue {
+	background-color: $sky-blue;
+}
+
+.bg-orange {
+	background-color: $orange;
+}
+
+.bg-yellow {
+	background-color: $yellow;
+}
+
+.bg-black {
+	background-color: $black;
+}
+
+.bg-orange,
+.bg-magenta,
+.bg-light-blue,
+.bg-dark-blue {
+	.content-block {
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6,
+		p,
+		span,
+		a,
+		a:active,
+		a:visited {
+			color: $white;
+		}
+	}
+}

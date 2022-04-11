@@ -9,7 +9,8 @@
 
 @section('content')
 
-	<div class="content-container">
+<div class="admin content-block container pad-vertically">
+	<div class="white-container">
 
 	@if ( Session::has('success') )
 		<p class="alert alert-success">{{ Session::get('success') }}</p>
@@ -29,8 +30,9 @@
 	'route' => $route
 ])
 
-	</div>
+		<div class="button back-button"><a href="{{ route('/races/index') }}">Back to races list</a></div>
 
-	<div class="button back-button"><a href="{{ route('/races/index') }}">Back to races list</a></div>
+	</div>
+</div>
 
 @endsection

@@ -9,8 +9,8 @@
 
 @section('content')
 
-	<div class="content-container">
-
+<div class="admin content-block container pad-vertically">
+	<div class="white-container">
 		@if ( Session::has('success') )
 			<p class="alert alert-success">{{ Session::get('success') }}</p>
 		@endif
@@ -50,10 +50,14 @@
 		</form>
 
 		@if (Route::has('password.request'))
-			<p><a href="{{ route('password.request') }}">Forgot Your Password?</a></p>
+			<div class="form-element">
+				<label>&nbsp;</label>
+				<div class="form-input"><a href="{{ route('password.request') }}">Forgot Your Password?</a></div>
+			</div>
 		@endif
 
 	</div>
+</div>
 
 
 @endsection

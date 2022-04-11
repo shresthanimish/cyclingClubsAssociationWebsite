@@ -9,20 +9,23 @@
 
 @section('content')
 
-	<div class="content-container">
+<div class="admin content-block container pad-vertically">
+	<div class="white-container">
 
 		<h1>{{ ( !empty($rider->id) ? 'Update rider' : 'Create new rider' ) }}</h1>
 
 @include('riders._form', [
 	'rider' => $rider,
+	'user' => $user,
 	'clubs' => App\Models\Club::get(),
 	'states' => App\Models\State::get(),
 	'errors' => $errors,
 	'route' => $route
 ])
 
-	</div>
+		<div class="button back-button"><a href="{{ route('/riders/index') }}">Back to riders list</a></div>
 
-	<div class="button back-button"><a href="{{ route('/riders/index') }}">Back to riders list</a></div>
+	</div>
+</div>
 
 @endsection

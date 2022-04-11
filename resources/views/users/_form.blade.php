@@ -1,7 +1,3 @@
-@extends('layouts.app')
-
-@section('content')
-
 		<form method="post" action="{{ $route }}">
 			@csrf
 
@@ -11,7 +7,7 @@
 				@endif
 
 				<label>First name <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="text" name="first_name" value="{{ $user->first_name }}" class="field {{ $errors->has('first_name') ? ' invalid' : '' }}" required autofocus /></div>
+				<div class="form-input"><input type="text" name="first_name" value="{{  old('first_name', $user->first_name) }}" required autofocus class="input {{ $errors->has('first_name') ? ' invalid' : '' }}" /></div>
 			</div>
 
 			<div class="form-element">
@@ -20,7 +16,7 @@
 				@endif
 
 				<label>Surname <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="text" name="surname" value="{{ $user->surname }}" class="field {{ $errors->has('surname') ? ' invalid' : '' }}" required /></div>
+				<div class="form-input"><input type="text" name="surname" value="{{  old('surname', $user->surname) }}" required class="input {{ $errors->has('surname') ? ' invalid' : '' }}" /></div>
 			</div>
 
 			<div class="form-element">
@@ -29,7 +25,7 @@
 				@endif
 
 				<label>Email <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="email" name="email" value="{{ $user->email }}" class="field {{ $errors->has('email') ? ' invalid' : '' }}" required /></div>
+				<div class="form-input"><input type="email" name="email" value="{{  old('email', $user->email) }}" required class="input {{ $errors->has('email') ? ' invalid' : '' }}" /></div>
 			</div>
 
 		@if ( !$limited )
@@ -41,15 +37,15 @@
 				<label>Role <span class="validation-error">&#42;</span></label>
 				<div class="form-input radio-options">
 					<div class="radio-option">
-						<input type="radio" name="role" value="{{ $user::ROLE_ADMIN }}" {{ ($user->role == $user::ROLE_ADMIN ? 'checked="true"' : '' ) }} required />
+						<input type="radio" name="role" value="{{ $user::ROLE_ADMIN }}" {{ ( old('role', $user->role) == $user::ROLE_ADMIN ? 'checked="true"' : '' ) }} class=" {{ $errors->has('role') ? ' invalid' : '' }}" />
 						<label>{{ $user::getRoleText($user::ROLE_ADMIN) }}</label>
 					</div>
 					<div class="radio-option">
-						<input type="radio" name="role" value="{{ $user::ROLE_RIDER }}" {{ ($user->role == $user::ROLE_RIDER ? 'checked="true"' : '' ) }} required />
+						<input type="radio" name="role" value="{{ $user::ROLE_RIDER }}" {{ ( old('role', $user->role) == $user::ROLE_RIDER ? 'checked="true"' : '' ) }} class=" {{ $errors->has('role') ? ' invalid' : '' }}" />
 						<label>{{ $user::getRoleText($user::ROLE_RIDER) }}</label>
 					</div>
 					<div class="radio-option">
-						<input type="radio" name="role" value="{{ $user::ROLE_RIDER }}" {{ ($user->role == $user::ROLE_CLUB ? 'checked="true"' : '' ) }} required />
+						<input type="radio" name="role" value="{{ $user::ROLE_RIDER }}" {{ ( old('role', $user->role) == $user::ROLE_CLUB ? 'checked="true"' : '' ) }} class=" {{ $errors->has('role') ? ' invalid' : '' }}" />
 						<label>{{ $user::getRoleText($user::ROLE_CLUB) }}</label>
 					</div>
 				</div>
@@ -64,12 +60,12 @@
 				@endif
 
 				<label>Password <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="password" name="password" value="" class="field {{ $errors->has('password') ? ' invalid' : '' }}" required /></div>
+				<div class="form-input"><input type="password" name="password" value="" required class="input {{ $errors->has('password') ? ' invalid' : '' }}" /></div>
 			</div>
 
 			<div class="form-element">
 				<label>Confirm Password <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="password" name="password_confirmation" value="" class="field {{ $errors->has('password') ? ' invalid' : '' }}" required /></div>
+				<div class="form-input"><input type="password" name="password_confirmation" value="" required class="input {{ $errors->has('password_confirmation') ? ' invalid' : '' }}" /></div>
 			</div>
 
 		@else
@@ -115,5 +111,3 @@
 			</div>
 
 		</form>
-
-@endsection

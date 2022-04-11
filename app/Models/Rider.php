@@ -36,7 +36,6 @@ class Rider extends Model
 		'grading',
 		'age',
 		'gender',
-		'club_id',
 	];
 
 	/**
@@ -47,7 +46,6 @@ class Rider extends Model
 		'grading',
 		'age',
 		'gender',
-		'club_id',
 	];
 
 	/**
@@ -60,17 +58,16 @@ class Rider extends Model
 	 * Get a validator for an incoming registration request.
 	 * @return \Illuminate\Contracts\Validation\Validator
 	 */
-	public function validator()
+	public function validator($validateUsersId = true)
 	{
+		$userIdRules = ( $validateUsersId ? ['required', 'integer', 'min:1'] : ['integer', 'min:1', 'nullable'] );
 		$data = $this->attributesToArray();
-
 		return Validator::make($data, [
 			'id' => ['integer', 'min:1'], // primary key
-			'user_id' => ['required', 'integer', 'min:1'], // required foreign key
+			'user_id' => $userIdRules, // required foreign key
 			'grading' => ['required', 'numeric', 'min:' . self::GRADING_LOWER, 'max:' . self::GRADING_UPPER],
 			'age' => ['required', 'numeric', 'min:' . self::AGE_LOWER, 'max:' . self::AGE_UPPER],
-			'gender' => ['required', Rule::in([self::GENDER_MALE, self::GENDER_MALE, self::GENDER_OTHER])],
-			'club_id' => ['required', 'integer', 'min:1'], // required foreign key
+			'gender' => ['required', Rule::in([self::GENDER_FEMALE, self::GENDER_MALE, self::GENDER_OTHER])],
 		]);
 	}
 
@@ -81,14 +78,6 @@ class Rider extends Model
 	{
 		return $this->belongsTo('App\Models\User');
 	}
-	/**
-	 * Get the Club for the Rider
-	 */
-	public function club()
-	{
-		return $this->belongsTo('App\Models\Club');
-	}
-
 
 	/**
 	 * Get the race entrants the rider was an entrant of.
@@ -102,22 +91,36 @@ class Rider extends Model
 	 * Store details for a Rider
 	 * @return \Illuminate\Http\Response
 	 */
-	public function storeDetails()
+	public function storeDetails($user = NULL)
 	{
-		$validator = $this->validator();
-		if ( $validator->fails() )
+		$validator = $this->validator($this->exists);
+		$userValidator = $user->validator();
+
+		if ( $validator->fails() || $userValidator->fails() )
 		{
-			$rv = back()->withErrors($validator)->withInput();
+			$validationErrors = array_merge_recursive($validator->messages()->toArray(), $userValidator->messages()->toArray());
+			$rv = back()->withErrors($validationErrors)->withInput();
 		}
 		else
 		{
-			if ( $this->save() )
+			$success = false;
+
+			// Ensure the user role is set to rider
+			$user->role = \App\Models\User::ROLE_RIDER;
+			if ( $user->save() )
 			{
-				$rv = redirect(route('/riders/index'))->with('success', 'Details for the rider were successfully saved');
+				// Assign the user account to the rider
+				$this->setAttribute('user_id', $user->id);
+				if ( $this->save() )
+				{
+					$success = true;
+					$rv = redirect(route('/riders/index'))->with('success', 'Details for the rider were successfully saved');
+				}
 			}
-			else
+
+			if ( !$success )
 			{
-				$route = route('/riders/' . ( empty($this->id) ? 'create/' : 'details/' . $this->id ));
+				$route = route('/riders/' . ( !$this->exists ? 'create/' : 'details/' . $this->id ));
 				$rv = redirect(route($route))->with('error', 'An error occured saving details for the rider.');
 			}
 		}
@@ -142,14 +145,14 @@ class Rider extends Model
 			if ( !empty($keyword) )
 			{
 				// Add where clauses for the generic fields as 'OR' joins
-				$fieldsToSearch = ['first_name', 'surname', 'grading', 'age'];
+				$fieldsToSearch = ['grading', 'age'];
 				foreach ( $fieldsToSearch as $fieldname )
 				{
 					$whereConditions[] = [$table . '.' . $fieldname, 'like', '%' . addslashes($keyword) . '%', 'or'];
 				}
 
 				// Add where clauses for the generic fields as 'OR' joins for the relation User
-				$fieldsToSearch = ['title', 'address', 'suburb', 'postcode'];
+				$fieldsToSearch = ['first_name', 'surname', 'email'];
 				foreach ( $fieldsToSearch as $fieldname )
 				{
 					$whereConditions[] = ['users.' . $fieldname, 'like', '%' . addslashes($keyword) . '%', 'or'];
@@ -161,9 +164,10 @@ class Rider extends Model
 				->where($whereConditions)
 				// If applicable, add where condition for Club ID
 				->when(!empty($clubsId), function($query) use($table, $clubsId) {
-					return $query->where([
-						[$table . '.club_id', '=', addslashes($clubsId), 'and']
-					]);
+					return $query->leftJoin('users', 'riders.user_id', '=', $table . '.user_id')
+						->where([
+							['users.club_id', '=', addslashes($clubsId), 'and']
+						]);
 				})
 				// If applicable, add where condition for gender
 				->when(!empty($gender), function($query) use($table, $gender) {
@@ -173,7 +177,7 @@ class Rider extends Model
 				})
 				// If applicable, add the required joins to relations
 				->when($joinTables, function($query) use ($table) {
-					return $query->leftJoin('clubs', 'clubs.id', '=', $table . '.club_id');
+					return $query->leftJoin('users', 'users.id', '=', $table . '.user_id');
 				})
 				->paginate(self::PAGINATION_SIZE);
 		}

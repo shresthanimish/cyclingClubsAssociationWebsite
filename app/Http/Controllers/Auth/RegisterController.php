@@ -54,7 +54,7 @@ class RegisterController extends Controller
 			'email' => ['required', 'email', 'max:255', 'unique:users'],
 			'password' => ['required', 'min:6', 'max:30', 'confirmed'],
 			'password_confirmation' => ['required', 'same:password'],
-			'club_id' => ['integer', 'nullable', 'max:100'],
+			'club_id' => ['required', 'integer', 'max:100'],
 		]);
 	}
 

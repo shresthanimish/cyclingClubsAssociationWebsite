@@ -46,7 +46,7 @@ trait StatusTrait
 	}
 
 	/**
-	 * Gets the literal name for the status attribute value stored for this carbon calculation
+	 * Gets the literal name for the status attribute value stored for a model using this trait
 	 * @return string
 	 */
 	public function getStatus()

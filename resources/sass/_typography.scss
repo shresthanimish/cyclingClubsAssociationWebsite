@@ -1,0 +1,171 @@
+html,
+body,
+button,
+input,
+select,
+textarea,
+* {
+	font-family: $font-primary;
+	font-style: normal;
+}
+
+html {
+	line-height: 1.15;
+}
+
+body {
+	font-size: $font-primary-size;
+	@include font-responsive(1.8rem, 2rem, 2rem, 2rem, 2rem, 2.2rem);
+
+	color: $black;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	line-height: 1;
+	margin-bottom: 0.6em;
+	color: $black;
+	font-family: $font-headings;
+
+	a,
+	span {
+		line-height: 1;
+	}
+}
+
+h1,
+h2,
+h3 {
+	font-weight: 900;
+	color: $black;
+
+	a,
+	span {
+		font-weight: 900;
+	}
+}
+
+h4,
+h5,
+h6 {
+	font-weight: 500;
+	color: $black;
+
+	a,
+	span {
+		font-weight: 500;
+	}
+}
+
+h1 {
+	@include font-responsive(2.25rem, 2.35rem, 2.55rem, 3rem, 3rem, 3rem);
+}
+
+h2 {
+	font-size: 4rem;
+	@include font-responsive(2rem, 2.1rem, 2.2rem, 2.5rem, 2.5rem, 2.5rem);
+}
+
+h3 {
+	font-size: 3.1rem;
+	@include font-responsive(1.6rem, 1.7rem, 1.8rem, 2rem, 2rem, 2rem);
+}
+
+h4 {
+	font-size: 2.25rem;
+	@include font-responsive(1.3rem, 1.35rem, 1.5rem, 1.75rem, 1.75rem, 1.75rem);
+}
+
+h5 {
+	@include font-responsive(1.2rem, 1.275rem, 1.3rem, 1.5rem, 1.5rem, 1.5rem);
+}
+
+p {
+	margin: 0 auto 1em auto;
+	line-height: 1.5;
+	color: $black;
+}
+
+a,
+a:active,
+a:visited {
+	color: $sky-blue;
+	text-decoration: none;
+}
+a:hover {
+	color: $orange;
+	text-decoration: underline;
+}
+
+em,
+i {
+	font-style: normal;
+}
+
+.bold-text {
+	font-weight: 900;
+}
+
+.normal-text {
+	font-weight: normal;
+}
+
+.light-text {
+	font-weight: 300;
+}
+
+.uppercase {
+	text-transform: uppercase;
+}
+
+.capitalize {
+	text-transform: capitalize;
+}
+
+.lowercase {
+	text-transform: lowercase;
+}
+
+.alert-success {
+	color: green;
+	font-weight: bold;
+}
+
+.alert-error {
+	color: red;
+	font-weight: bold;
+}
+
+.validation-error {
+	color: red;
+}
+
+span.coloured {
+	&cream {
+		color: $cream !important;
+	}
+
+	&dark-blue {
+		color: $dark-blue;
+	}
+
+	&light-blue {
+		color: $light-blue;
+	}
+
+	&sky-blue {
+		color: $sky-blue;
+	}
+
+	&orange {
+		color: $orange;
+	}
+
+	&yellow {
+		color: $yellow;
+	}
+}

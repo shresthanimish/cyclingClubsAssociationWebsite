@@ -1,6 +1,9 @@
 /node_modules
 /public/hot
 /public/storage
+/public/fonts/
+/public/js/app.js
+/public/css/app.css
 /storage/*.key
 /vendor
 .env
@@ -13,4 +16,5 @@ yarn-error.log
 /.idea
 /.vscode
 composer.lock
+package-lock.json
 NOTES

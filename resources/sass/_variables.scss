@@ -1,0 +1,73 @@
+/* Typography Defaults */
+$global-font-size: 16px;
+$font-primary: 'Roboto', sans-serif;
+$font-primary-size: 1rem;
+$line-height: 1.5;
+$font-headings: 'Varela Round', sans-serif;
+
+/***** BREAK POINTS ****/
+/* Small */
+$max_sm: 607px;
+$sm: 608px;
+/* Medium */
+$max_md: 991px;
+$md: 992px;
+/* Large */
+$max_lg: 1199px;
+$lg: 1200px;
+/* Extra large */
+$max_xl: 1599px;
+$xl: 1600px;
+/* Extra extra large */
+$max_xxl: 1999px;
+$xxl: 2000px;
+
+
+/****** NAVIGATION *****/
+$navigation-height: 4.5em;
+$admin-navigation-height: 2.5em;
+$footer-navigation-height: 2em;
+
+/****** MARGINS *****/
+/* Margin both vertical and horizontal */
+$margin-xs: 0px;
+$margin-md: 35px;
+$margin-lg: 50px;
+$margin-xl: 80px;
+$margin-xxl: 110px;
+
+/* Margin horizontal */
+$horizontal-margin-xs: 40px;
+$horizontal-margin-md: 2vh;
+$horizontal-margin-lg: 4vh;
+$horizontal-margin-xl: 5vh;
+$horizontal-margin-xxl: 7vh;
+
+/* Margin vertical */
+$vertical-margin-xs: 40px;
+$vertical-margin-md: 2vh;
+$vertical-margin-lg: 4vh;
+$vertical-margin-xl: 5vh;
+$vertical-margin-xxl: 7vh;
+
+/****** PADDINGS *****/
+/* Padding both vertical and horizontal */
+$padding-xs: 0px;
+$padding-md: 35px;
+$padding-lg: 50px;
+$padding-xl: 80px;
+$padding-xxl: 110px;
+
+/* Padding horizontal */
+$horizontal-padding-xs: 40px;
+$horizontal-padding-md: 2vh;
+$horizontal-padding-lg: 3vh;
+$horizontal-padding-xl: 4vh;
+$horizontal-padding-xxl: 7vh;
+
+/* Padding vertical */
+$vertical-padding-xs: 40px;
+$vertical-padding-md: 2vh;
+$vertical-padding-lg: 3vh;
+$vertical-padding-xl: 4vh;
+$vertical-padding-xxl: 7vh;

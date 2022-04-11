@@ -3,7 +3,6 @@
  * Form view to create/edit a Club
  */
 ?>
-
 		<form id="clubForm" action="{{ $route }}" method="post">
 			@csrf
 
@@ -13,7 +12,7 @@
 				@endif
 
 				<label>Title <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="text" name="Club[title]" value="{{ $club->title }}" class="input" /></div>
+				<div class="form-input"><input type="text" name="Club[title]" value="{{  old('title', $club->title) }}" required autofocus class="input {{ $errors->has('title') ? ' invalid' : '' }}" /></div>
 			</div>
 
 			<div class="form-element">
@@ -22,7 +21,7 @@
 				@endif
 
 				<label>Address <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="text" name="Club[address]" value="{{ $club->address }}" class="input" /></div>
+				<div class="form-input"><input type="text" name="Club[address]" value="{{  old('address', $club->address) }}" required class="input {{ $errors->has('address') ? ' invalid' : '' }}" /></div>
 			</div>
 
 			<div class="form-element">
@@ -31,7 +30,7 @@
 				@endif
 
 				<label>Suburb <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="text" name="Club[suburb]" value="{{ $club->suburb }}" class="input" /></div>
+				<div class="form-input"><input type="text" name="Club[suburb]" value="{{  old('suburb', $club->suburb) }}" required class="input {{ $errors->has('suburb') ? ' invalid' : '' }}" /></div>
 			</div>
 
 			<div class="form-element">
@@ -40,7 +39,7 @@
 				@endif
 
 				<label>Postcode <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="text" name="Club[postcode]" value="{{ $club->postcode }}" class="input" /></div>
+				<div class="form-input"><input type="text" name="Club[postcode]" value="{{  old('postcode', $club->postcode) }}" required class="input {{ $errors->has('postcode') ? ' invalid' : '' }}" /></div>
 			</div>
 
 			<div class="form-element">
@@ -51,9 +50,9 @@
 				<label>State <span class="validation-error">&#42;</span></label>
 				<div class="form-input">
 				@if ( is_object($states) && count($states) )
-					<select name="Club[state_id]" class="select" required>
+					<select name="Club[state_id]" required class="select {{ $errors->has('state_id') ? ' invalid' : '' }}">
 					@foreach ( $states as $state )
-						<option value="{{ $state->id }}" {{ ( $state->id == $club->state_id ? 'selected="true"' : '' ) }}>{{ $state->name }}</option>
+						<option value="{{ $state->id }}" {{ ( $state->id ==  old('state_id', $club->state_id) ? 'selected="true"' : '' ) }}>{{ $state->name }}</option>
 					@endforeach
 					</select>
 				@endif

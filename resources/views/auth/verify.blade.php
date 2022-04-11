@@ -9,7 +9,8 @@
 
 @section('content')
 
-	<div class="content-container">
+<div class="admin content-block container pad-vertically">
+	<div class="white-container">
 
 	@if (session('resent'))
 		<p class="alert alert-success">A verification link has been successfully sent to your email address.</p>
@@ -20,6 +21,8 @@
 		<p>Before we can proceed we need to verify your email address. Please check your email for your verification link.</p>
 
 		<p>If you did not receive the email, <a href="{{ route('verification.resend') }}">Click here to send another verification link</a>.</p>
+
 	</div>
+</div>
 
 @endsection

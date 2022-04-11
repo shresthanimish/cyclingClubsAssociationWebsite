@@ -9,23 +9,26 @@
 
 @section('content')
 
-<div class="content-container">
-	<h1>Races</h1>
+<div class="admin content-block container pad-vertically">
+	<div class="white-container">
 
-	<div class="button"><a href="{{ route('/races/create') }}">Create Race</a></div>
+		<h1>Races</h1>
 
-@if ( $searched )
-	@include('races._search', [
-		'race' => $race,
-		'keyword' => $keyword,
-		'clubsId' => $clubsId,
-		'statesId' => $statesId,
-		'status' => $status,
-	])
-@endif
+		<div class="button"><a href="{{ route('/races/create') }}">Create Race</a></div>
 
-	<p class="error-message">No races {{ ($searched ? 'matched your search criteria. Please try again.' : 'currently exist.' ) }}</p>
+	@if ( $searched )
+		@include('races._search', [
+			'race' => $race,
+			'keyword' => $keyword,
+			'clubsId' => $clubsId,
+			'statesId' => $statesId,
+			'status' => $status,
+		])
+	@endif
 
+		<p class="error-message">No races {{ ($searched ? 'matched your search criteria. Please try again.' : 'currently exist.' ) }}</p>
+
+	</div>
 </div>
 
 @endsection
