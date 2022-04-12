@@ -47,14 +47,19 @@
 		</nav>
 
 @if ( Auth::check() )
+@php( $loggedInUser = Auth::user() )
 
 		<nav class="admin-navigation">
 			<div class="content-block container row flex-between">
 				<ul class="no-bullet row flex-between">
+
+	@if ( $loggedInUser->role == \App\Models\User::ROLE_ADMIN )
 					<li><a href="{{ route('/clubs/index') }}">Clubs</a></li>
 					<li><a href="{{ route('/races/index') }}">Races</a></li>
 					<li><a href="{{ route('/riders/index') }}">Riders</a></li>
 					<li><a href="{{ route('/users/index') }}">Accounts</a></li>
+	@endif
+
 					<li><a href="{{ route('/profile/details') }}">Edit my details</a></li>
 					<li><a href="{{ route('/profile/password') }}">Change my password</a></li>
 					<li><a href="{{ route('logout') }}">Logout</a></li>

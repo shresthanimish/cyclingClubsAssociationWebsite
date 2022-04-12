@@ -30,7 +30,7 @@
 			'keyword' => $keyword,
 			'gender' => $gender,
 			'clubsId' => $clubsId,
-			'clubs' => App\Models\Club::get(),
+			'clubs' => App\Models\Club::orderBy('title', 'asc')->get(),
 		])
 
 		<div id="ridersList" class="riders-list list-container">

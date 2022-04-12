@@ -24,7 +24,7 @@
 
 @include('clubs._form', [
 	'club' => $club,
-	'states' => App\Models\State::get(),
+	'states' => App\Models\State::orderBy('name', 'asc')->get(),
 	'errors' => $errors,
 	'route' => $route
 ])

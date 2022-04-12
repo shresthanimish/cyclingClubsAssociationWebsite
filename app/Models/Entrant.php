@@ -70,4 +70,28 @@ class Entrant extends Model
 		return $this->belongsTo('App\Models\Rider');
 	}
 
+	/**
+	 * Gets the number of entrants to a race of specified ID
+	 */
+	public static function getNumberEntrants($raceId)
+	{
+		return self::select('id')
+			->where('race_id', $raceId, 'and')
+			->count();
+	}
+
+	/**
+	 * Gets the number of entrants to a race of specified ID
+	 */
+	public static function getPlacings($raceId, $limit = NULL)
+	{
+		return self::where('race_id', $raceId, 'and')
+			// If applicable, add where condition for status
+			->when(!empty($limit), function($query) use($limit) {
+				return $query->limit($limit);
+			})
+			->orderBy('place', 'asc')
+			->get();
+	}
+
 }

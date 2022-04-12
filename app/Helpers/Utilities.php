@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use DateTime;
+use Carbon\Carbon;
 
 /**
  * This class contains common utility functions used
@@ -21,7 +21,7 @@ class Utilities
 		{
 			if ( isset($data[$dateField]) && !empty($data[$dateField]) )
 			{
-				$date = DateTime::createFromFormat(config('app.date_format'), $data[$dateField]);
+				$date = Carbon::createFromFormat(config('app.date_format'), $data[$dateField]);
 				if ( $date !== false )
 				{
 					$value = $date->format($format);

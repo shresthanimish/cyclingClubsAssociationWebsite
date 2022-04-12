@@ -2,18 +2,29 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class State extends Model
+class Contact extends Model
 {
+	use HasFactory;
+
+	/**
+	 * The database table used by the model.
+	 * @var string
+	 */
+	protected $table = 'contact_form_submissions';
 
 	/**
 	 * The attributes that are mass assignable.
 	 * @var array
 	 */
-	protected $fillable = [
+	public $fillable = [
 		'name',
-		'abbreviation'
+		'email',
+		'phone',
+		'subject',
+		'message'
 	];
 
 	/**
@@ -21,7 +32,10 @@ class State extends Model
 	 */
 	protected $searchable = [
 		'name',
-		'abbreviation'
+		'email',
+		'phone',
+		'subject',
+		'message'
 	];
 
 	/**
@@ -40,28 +54,12 @@ class State extends Model
 
 		return Validator::make($data, [
 			'id' => ['integer', 'min:1'], // primary key
-			'name' => ['required', 'string', 'max:100', Rule::unique('states')->ignore($this->id)],
-			'abbreviation' => ['required', 'string', 'max:10']
+			'name' => ['required', 'string', 'max:150'],
+			'email' => ['required', 'email', 'max:255'],
+			'phone' => ['required', 'string', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:8', 'max:12'],
+			'subject'=> ['required', 'string', 'max:255'],
+			'message' => ['required', 'string', 'max:1000'],
         ]);
-	}
-
-	/**
-	 * Gets an array mapping the state ID to the state name
-	 * @return array
-	 */
-	public function getOptionsData()
-	{
-		$rv = [];
-
-		$states = $this->select('id', 'name')
-			->orderby('name', 'asc')
-			->get();
-
-		foreach ( $states as $state )
-		{
-			$rv[$state->id] = $state->name;
-		}
-		return $rv;
 	}
 
 }

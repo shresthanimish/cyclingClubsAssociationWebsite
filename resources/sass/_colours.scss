@@ -17,8 +17,16 @@ $list-row: $white;
 $list-alternate-row: $light-grey;
 
 // Background colours
-.bg-cream {
-	background-color: $cream;
+.bg-white{
+	background-color: $white;
+}
+
+.bg-black {
+	background-color: $black;
+}
+
+.bg-dark-grey {
+	background-color: $dark-grey;
 }
 
 .bg-dark-blue {
@@ -37,31 +45,25 @@ $list-alternate-row: $light-grey;
 	background-color: $orange;
 }
 
+.bg-cream {
+	background-color: $cream;
+}
+
 .bg-yellow {
 	background-color: $yellow;
 }
 
-.bg-black {
-	background-color: $black;
-}
 
-.bg-orange,
-.bg-magenta,
-.bg-light-blue,
-.bg-dark-blue {
+.bg-black,
+.bg-dark-grey,
+.bg-dark-blue,
+.bg-orange {
+
+	&.column {
+		@include font-colour($white);
+	}
+
 	.content-block {
-		h1,
-		h2,
-		h3,
-		h4,
-		h5,
-		h6,
-		p,
-		span,
-		a,
-		a:active,
-		a:visited {
-			color: $white;
-		}
+		@include font-colour($white);
 	}
 }

@@ -29,7 +29,7 @@
 			@endif
 
 				<label>Enter your email <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="email" name="email" value="{{ old('email') }}" class="field {{ $errors->has('email') ? ' invalid' : '' }}" required autofocus /></div>
+				<div class="form-input"><input type="email" name="email" value="{{ old('email') }}" required autofocus class="input {{ $errors->has('email') ? ' invalid' : '' }}" /></div>
 			</div>
 
 			<div class="form-element">

@@ -28,7 +28,7 @@
 	'route' => $route,
 	'limited' => $limited,
 	'create' => $create,
-	'clubs' => App\Models\Club::get(),
+	'clubs' => App\Models\Club::orderBy('title', 'asc')->get(),
 	'errors' => $errors,
 ])
 

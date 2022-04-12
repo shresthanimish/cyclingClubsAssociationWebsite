@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use DateTime;
+use Carbon\Carbon;
 
 class Race extends Model
 {
@@ -34,7 +34,7 @@ class Race extends Model
 		'postcode',
 		'state_id',
 		'status'
-    ];
+  ];
 
 	/**
 	 * The columns of the full text index
@@ -119,7 +119,7 @@ class Race extends Model
 	{
 		if ( !empty($this->race_date) )
 		{
-			$date = new DateTime($this->race_date);
+			$date = new Carbon($this->race_date);
 			$rv = $date->format($format);
 		}
 		else
@@ -174,7 +174,7 @@ class Race extends Model
 		}
 		else
 		{
-			if ( $this->save() )
+			if ( $this->saveOrFail() )
 			{
 				$rv = redirect(route('/races/index'))->with('success', 'Details for the race were successfully saved');
 			}
@@ -261,6 +261,33 @@ class Race extends Model
 		}
 
 		return $rv;
+	}
+
+	/**
+	 * Gets the upcoming races
+	 */
+	public function getUpcomingRaces()
+	{
+		$startDate = Carbon::now();
+		$endDate = Carbon::now()->add(6, 'month');
+
+		return self::where('status', self::STATUS_PENDING, 'and')
+			->whereBetween('race_date', [$startDate, $endDate], 'and')
+			->orderBy('race_date', 'asc')
+			->get();
+	}
+
+	/**
+	 * Gets the recently completed races
+	 */
+	public function getRecentlyRunRaces()
+	{
+		$startDate = Carbon::now()->sub(6, 'month');
+		$endDate = Carbon::now();
+		return self::where('status', self::STATUS_COMPLETE, 'and')
+			->whereBetween('race_date', [$startDate, $endDate], 'and')
+			->orderBy('race_date', 'asc')
+			->get();
 	}
 
 }

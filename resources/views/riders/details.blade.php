@@ -17,8 +17,8 @@
 @include('riders._form', [
 	'rider' => $rider,
 	'user' => $user,
-	'clubs' => App\Models\Club::get(),
-	'states' => App\Models\State::get(),
+	'clubs' => App\Models\Club::orderBy('title', 'asc')->get(),
+	'states' => App\Models\State::orderBy('name', 'asc')->get(),
 	'errors' => $errors,
 	'route' => $route
 ])

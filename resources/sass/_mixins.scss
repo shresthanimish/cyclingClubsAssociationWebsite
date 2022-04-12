@@ -292,3 +292,20 @@
 		}
 	}
 }
+
+// Set all the font colours to a specified colour
+@mixin font-colour($colour) {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	p,
+	span,
+	a,
+	a:active,
+	a:visited {
+		color: $colour;
+	}
+}

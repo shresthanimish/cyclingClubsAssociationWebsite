@@ -45,7 +45,11 @@ class PublicController extends Controller
 	 */
 	public function races( Request $request )
 	{
-		return view('races');
+		$race = new \App\Models\Race;
+		return view('races', [
+			'upcomingRaces' => $race->getUpcomingRaces(),
+			'recentRaces' => $race->getRecentlyRunRaces(),
+		]);
 	}
 
 	/**

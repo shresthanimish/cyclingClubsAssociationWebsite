@@ -100,7 +100,7 @@ class Club extends Model
 		}
 		else
 		{
-			if ( $this->save() )
+			if ( $this->saveOrFail() )
 			{
 				$rv = redirect(route('/clubs/index'))->with('success', 'Details for the club were successfully saved');
 			}

@@ -113,7 +113,7 @@
 				<div class="form-input radio-options">
 				@foreach ( $rider::getGenderOptions() as $genderValue => $genderLabel )
 					<div class="radio-option">
-						<input type="radio" name="Rider[gender]" value="{{ $genderValue }}" {{ ( $genderValue == old('role', $rider->gender) ? 'checked="true"' : '' ) }} class="{{ $errors->has('gender') ? ' invalid' : '' }}" class=" {{ $errors->has('gender') ? ' invalid' : '' }}" />
+						<input type="radio" name="Rider[gender]" value="{{ $genderValue }}" {{ ( $genderValue == old('gender', $rider->gender) ? 'checked="true"' : '' ) }} class="{{ $errors->has('gender') ? ' invalid' : '' }}" class=" {{ $errors->has('gender') ? ' invalid' : '' }}" />
 						<label>{{ $genderLabel }}</label>
 					</div>
 				@endforeach

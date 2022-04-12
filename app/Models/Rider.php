@@ -107,11 +107,11 @@ class Rider extends Model
 
 			// Ensure the user role is set to rider
 			$user->role = \App\Models\User::ROLE_RIDER;
-			if ( $user->save() )
+			if ( $user->saveOrFail() )
 			{
 				// Assign the user account to the rider
 				$this->setAttribute('user_id', $user->id);
-				if ( $this->save() )
+				if ( $this->saveOrFail() )
 				{
 					$success = true;
 					$rv = redirect(route('/riders/index'))->with('success', 'Details for the rider were successfully saved');

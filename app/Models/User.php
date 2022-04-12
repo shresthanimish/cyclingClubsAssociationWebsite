@@ -151,7 +151,7 @@ class User extends Model
 		}
 		else
 		{
-			if ( $this->save() )
+			if ( $this->saveOrFail() )
 			{
 				if ( strpos($request->path(), 'profile/') !== false )
 				{

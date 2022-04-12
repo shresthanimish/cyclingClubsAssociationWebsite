@@ -14,9 +14,9 @@ return new class extends Migration
 	{
 		Schema::create('users', function (Blueprint $table) {
 			$table->id();
-			$table->string('first_name');
-			$table->string('surname');
-			$table->string('email')->unique();
+			$table->string('first_name', 100);
+			$table->string('surname', 100);
+			$table->string('email', 255)->unique();
 			$table->string('password');
 			$table->enum('role', array_keys(App\Models\User::getRoleOptions()));
 			$table->foreignIdFor(App\Models\Club::class)->nullable()->constrained();

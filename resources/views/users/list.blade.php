@@ -30,7 +30,7 @@
 			'role' => $role,
 			'status' => $status,
 			'clubsId' => $clubsId,
-			'clubs' => App\Models\Club::get(),
+			'clubs' => App\Models\Club::orderBy('title', 'asc')->get(),
 		])
 
 		<div id="usersList" class="users-list list-container">

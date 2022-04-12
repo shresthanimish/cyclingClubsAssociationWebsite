@@ -32,7 +32,7 @@
 				@endif
 
 				<label>Enter your email <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="email" name="email" value="{{ old('email') }}" class="field {{ $errors->has('email') ? ' invalid' : '' }}" required autofocus /></div>
+				<div class="form-input"><input type="email" name="email" value="{{ old('email') }}" required autofocus class="input {{ $errors->has('email') ? ' invalid' : '' }}" /></div>
 			</div>
 
 			<div class="form-element">
@@ -41,7 +41,7 @@
 				@endif
 
 				<label>Enter your new password <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="password" name="password" value="" class="field {{ $errors->has('password') ? ' invalid' : '' }}" required /></div>
+				<div class="form-input"><input type="password" name="password" value="" required class="input {{ $errors->has('password') ? ' invalid' : '' }}" required /></div>
 			</div>
 
 			<div class="form-element">
@@ -50,7 +50,7 @@
 				@endif
 
 				<label>Re-enter your new password <span class="validation-error">&#42;</span></label>
-				<div class="form-input"><input type="password" name="password_confirmation" value="" class="field {{ $errors->has('password_confirmation') ? ' invalid' : '' }}" required /></div>
+				<div class="form-input"><input type="password" name="password_confirmation" value="" required class="input {{ $errors->has('password_confirmation') ? ' invalid' : '' }}" required /></div>
 			</div>
 
 			<div class="form-element">

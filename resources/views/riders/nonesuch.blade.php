@@ -21,7 +21,7 @@
 				'keyword' => $keyword,
 				'gender' => $gender,
 				'clubsId' => $clubsId,
-				'clubs' => App\Models\Club::get(),
+				'clubs' => App\Models\Club::orderBy('title', 'asc')->get(),
 			])
 		@endif
 
