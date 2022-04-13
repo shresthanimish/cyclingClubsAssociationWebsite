@@ -22,19 +22,19 @@
 </div>
 
 
-<div class="upcoming-races page-content-block bg-dark-grey">
+<div class="upcoming-races page-content-block bg-pale-blue">
 	<div class="content-block container">
 		<div class="flex flex-between">
-			<div>
+			<div class="container">
 				<h3>Find a club near you</h3>
 
 				<div>
-					<form id="searchForm" method="post">
+					<form id="searchForm" method="post" class="search-form">
 						@csrf
 
 						<div class="form-element">
 							<label>Keyword</label>
-							<div class="form-input"><input type="text" name="keyword" value="{{ $keyword }}" /></div>
+							<div class="form-input"><input type="text" name="keyword" value="{{ $keyword }}" class="input" /></div>
 						</div>
 
 						<div class="form-element">

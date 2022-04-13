@@ -12,7 +12,21 @@ div.page-content-block {
 		@include h-padding-responsive(0.85);
 
 		.race-item {
-			@include flex-row(nowrap);
+			@include v-margin-responsive(0.85);
+			@include padding-responsive(0.85);
+
+			h5 {
+				margin: 0 0 0.5em 0;
+				line-height: 1;
+			}
+			background-color: $sky-blue;
+
+			&:nth-child(odd){
+				background-color: $dark-grey;
+			}
+
+		}
+		.search-form {
 		}
 	}
 }

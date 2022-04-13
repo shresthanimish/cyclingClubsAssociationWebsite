@@ -232,6 +232,112 @@
 	}
 }
 
+// Set horizontal margin across break points. Allows multiplier for customisation
+@mixin h-margin-responsive($multiplier:null) {
+	margin-left: $horizontal-margin-xs;
+	margin-right: $horizontal-margin-xs;
+
+	@if $multiplier {
+		@media (min-width: $md) {
+			margin-left: $horizontal-margin-md * $multiplier;
+			margin-right: $horizontal-margin-md * $multiplier;
+		}
+
+		@media (min-width: $lg) {
+			margin-left: $horizontal-margin-lg * $multiplier;
+			margin-right: $horizontal-margin-lg * $multiplier;
+		}
+
+		@media (min-width: $xl) {
+			margin-left: $horizontal-margin-xl * $multiplier;
+			margin-right: $horizontal-margin-xl * $multiplier;
+		}
+
+		@media (min-width: $xxl) {
+			margin-left: $horizontal-margin-xxl * $multiplier;
+			margin-right: $horizontal-margin-xxl * $multiplier;
+		}
+	}
+	@else {
+		@media (min-width: $xs) {
+			margin-left: $horizontal-margin-xs;
+			margin-right: $horizontal-margin-xs;
+		}
+		@media (min-width: $md) {
+			margin-left: $horizontal-margin-md;
+			margin-right: $horizontal-margin-md;
+		}
+
+		@media (min-width: $lg) {
+			margin-left: $horizontal-margin-lg;
+			margin-right: $horizontal-margin-lg;
+		}
+
+		@media (min-width: $xl) {
+			margin-left: $horizontal-margin-xl;
+			margin-right: $horizontal-margin-xl;
+		}
+
+		@media (min-width: $xxl) {
+			margin-left: $horizontal-margin-xxl;
+			margin-right: $horizontal-margin-xxl;
+		}
+	}
+}
+
+// Set vertical margin across break points. Allows multiplier for customisation
+@mixin v-margin-responsive($multiplier:null) {
+	margin-top: $vertical-margin-xs;
+	margin-bottom: $vertical-margin-xs;
+
+	@if $multiplier {
+		@media (min-width: $md) {
+			margin-top: $vertical-margin-md * $multiplier;
+			margin-bottom: $vertical-margin-md * $multiplier;
+		}
+
+		@media (min-width: $lg) {
+			margin-top: $vertical-margin-lg * $multiplier;
+			margin-bottom: $vertical-margin-lg * $multiplier;
+		}
+
+		@media (min-width: $xl) {
+			margin-top: $vertical-margin-xl * $multiplier;
+			margin-bottom: $vertical-margin-xl * $multiplier;
+		}
+
+		@media (min-width: $xxl) {
+			margin-top: $vertical-margin-xxl * $multiplier;
+			margin-bottom: $vertical-margin-xxl * $multiplier;
+		}
+	}
+	@else {
+		@media (min-width: $xs) {
+			margin-top: $vertical-margin-xs;
+			margin-bottom: $vertical-margin-xs;
+		}
+		@media (min-width: $md) {
+			margin-top: $vertical-margin-md;
+			margin-bottom: $vertical-margin-md;
+		}
+
+		@media (min-width: $lg) {
+			margin-top: $vertical-margin-lg;
+			margin-bottom: $vertical-margin-lg;
+		}
+
+		@media (min-width: $xl) {
+			margin-top: $vertical-margin-xl;
+			margin-bottom: $vertical-margin-xl;
+		}
+
+		@media (min-width: $xxl) {
+			margin-top: $vertical-margin-xxl;
+			margin-bottom: $vertical-margin-xxl;
+		}
+	}
+}
+
 // Set element to display as flex row
 @mixin flex-row($wrap:null) {
 	display: flex;

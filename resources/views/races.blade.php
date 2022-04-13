@@ -35,9 +35,12 @@
 
 					<div class="race-item">
 						<h5>{{ $race->title }}</h5>
-						{!! ( isset($race->club) ? '<p><strong>' . $race->club->title . '</strong><p>' : '' ) !!}
-						<p>{{ $race->getRaceDate('l jS F') }} {{ $race->start_time }}</p>
-						<p>Number of entrants: <strong>{{ \App\Models\Entrant::getNumberEntrants($race->id) }}</strong></p>
+
+						<div class="details">
+							{!! ( isset($race->club) ? '<p>Club: <strong>' . $race->club->title . '</strong></p>' : '' ) !!}
+							<p>Race Date: {{ $race->getRaceDate('l jS F') }} {{ $race->start_time }}</p>
+							<p>Number of entrants: <strong>{{ \App\Models\Entrant::getNumberEntrants($race->id) }}</strong></p>
+						</div>
 					</div>
 
 		@endforeach
@@ -68,9 +71,12 @@
 
 					<div class="race-item">
 						<h5>{{ $race->title }}</h5>
-						{!! ( isset($race->club) ? '<p><strong>' . $race->club->title . '</strong><p>' : '' ) !!}
-						<p>{{ $race->getRaceDate('l jS F') }} {{ $race->start_time }}</p>
-						<p>Number of entrants: <strong>{{ $numberOfEntrants }}</strong></p>
+
+						<div class="details">
+							{!! ( isset($race->club) ? '<p><strong>' . $race->club->title . '</strong><p>' : '' ) !!}
+							<p>{{ $race->getRaceDate('l jS F') }} {{ $race->start_time }}</p>
+							<p>Number of entrants: <strong>{{ $numberOfEntrants }}</strong></p>
+						</div>
 
 						<div class="placings">
 
