@@ -61,7 +61,7 @@ Prepare the database by run the migrations and seeding the database with test da
 php artisan migrate:fresh --seed
 
 
-#### STEP 3: START DEV SERVER. 
+#### STEP 5: START DEV SERVER. 
 
 You can use PHP's built-in development server (only PHP 5.4+) via using
 
@@ -96,6 +96,13 @@ Alternatively, you can use the following virtual host configuration example and 
 
 </VirtualHost>
 
+
+## BACKEND ACCESS
+
+You can access the backend tools for the website using the following credentials
+
+username: info@rhombus.com.au
+password: password
 
 
 ## FUTURE
