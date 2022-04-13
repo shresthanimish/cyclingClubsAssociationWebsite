@@ -1,64 +1,128 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Cycling Clubs Association
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## About
+This is a simple laravel 9 project that models a fictional Cycling Club Association website.
 
-## About Laravel
+The initial idea came from a developer exercise that defined relationships between a Club, Rider, Race and the entrants (i.e. Riders) to a Race. The exercise was a test to see how the data is modelled and the manner that the data is to be displayed.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+I took this as an opportunity to have some fun exploring Laravel 9.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## Getting Started
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### STEP 1: GET PROJECT
+Check out project from github via
 
-## Laravel Sponsors
+git clone git@github.com:rhombusdigital/cyclingClubsAssociationWebsite.git
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+gh repo clone rhombusdigital/cyclingClubsAssociationWebsite
 
-### Premium Partners
+#### STEP 2: SET UP DATABASE
+Create the database you will be using to store the data
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+create database cyclingClubsAssociation;
 
-## Contributing
+Make sure you have the required permissions
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+#### STEP 3: CONFIGURE PROJECT
+Download the required libraries, including laravel, by doing a composer update (assuming you have composer installed)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```shell
+composer update
+```
 
-## Security Vulnerabilities
+Ensure the project has a key generated
+```shell
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Copy the .env.example and modify as required by your set up
 
-## License
+```shell
+cp .env.example .env
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Install the required javascript packages
+```shell
+npm install
+```
+Generate the stylesheets from the Sass files using
+```shell
+npm run dev
+```
+
+#### Step 4: POPULATE DATABASE
+Prepare the database by run the migrations and seeding the database with test data using
+
+php artisan migrate:fresh --seed
+
+
+#### STEP 3: START DEV SERVER. 
+
+You can use PHP's built-in development server (only PHP 5.4+) via using
+
+```shell
+php artisan serve
+```
+
+Alternatively, you can use the following virtual host configuration example and set up a virtual host on Apache
+
+<VirtualHost *:80>
+        ServerAlias some-domain.com
+        ServerAdmin bugs@some-domain.com
+        DocumentRoot /home/someUser/cyclingClubsAssociation/public
+
+        <Directory /home/someUser/cyclingClubsAssociation/public/>
+                Options FollowSymLinks SymLinksIfOwnerMatch MultiViews
+                Require all granted
+
+                RewriteEngine On
+                RewriteBase /
+                RewriteRule ^index\.php$ - [L]
+                RewriteCond %{REQUEST_FILENAME} !-f
+                RewriteCond %{REQUEST_FILENAME} !-d
+                RewriteRule . /index.php [L]
+                
+        </Directory>
+
+        ErrorLog /home/someUser/cyclingClubsAssociation/storage/logs/apache.error.log
+        LogLevel warn
+
+        CustomLog /home/someUser/cyclingClubsAssociation/storage/logs/apache.access.log combined
+
+</VirtualHost>
+
+
+
+## FUTURE
+
+This is an incomplete test project that is in no way production ready
+
+### TODO List
+
+Minor tasks that will be undertaken in the short term
+- Make UI responsive
+- Improve style/colours of UI
+- Integrate dummy footer links
+- Add the display of the riders in an upcoming race via API
+- Add the display of the riders in an completed race via API
+- Implement tests for all models
+
+### Experiments for future
+- Fork out project and convert the front end to ReactJS
+- Fork out project and convert the front end to Vue.js
+
+### Future User Stories
+- As an informal user I would like to view the details for a selected race
+- As an informal user I would like to view the details for a selected club
+- As an informal user I would like to join/register my club to the association
+- As a club user I would like to 
+	- Add, edit or remove any of my races
+	- Remove a rider from my club
+	- be able to approve/deny a rider registering for my club
+		~ Remove rider from club
+- As a rider I would like to be able to be part of more than one club
