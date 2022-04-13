@@ -92,6 +92,14 @@ class Race extends Model
 	}
 
 	/**
+	 * Get the State for the UtilityEmission
+	 */
+	public function state()
+	{
+		return $this->belongsTo('App\Models\State');
+	}
+
+	/**
 	 * Get the race entrants for this race.
 	 */
 	public function raceEntrants()
@@ -196,7 +204,7 @@ class Race extends Model
 	 * @param string|NULL $status
 	 * @return Race[]
 	 */
-	public function search( $keyword, $clubsId = NULL, $statesId = NULL, $status = NULL )
+	public function search( $keyword = NULL, $clubsId = NULL, $statesId = NULL, $status = NULL )
 	{
 		if ( !empty($keyword) || !empty($clubsId) || !empty($statesId) || !empty($status) )
 		{
@@ -227,31 +235,25 @@ class Race extends Model
 				}
 			}
 
-			$joinTables = ( count($whereConditions) ? true : false );
+			$hasWheres = ( count($whereConditions) ? true : false );
 			$rv = self::select($table . '.*')
-				->where($whereConditions)
 				// If applicable, add where condition for Club ID
 				->when(!empty($clubsId), function($query) use($table, $clubsId) {
-					return $query->where([
-						[$table . '.club_id', '=', addslashes($clubsId), 'and']
-					]);
+					return $query->where($table . '.club_id', '=', addslashes($clubsId), 'or');
 				})
 				// If applicable, add where condition for State ID
 				->when(!empty($statesId), function($query) use($table, $statesId) {
-					return $query->where([
-						[$table . '.state_id', '=', addslashes($statesId), 'and']
-					]);
+					return $query->where($table . '.state_id', '=', addslashes($statesId));
 				})
 				// If applicable, add where condition for status
 				->when(!empty($status), function($query) use($table, $status) {
-					return $query->where([
-						[$table . '.status', '=', addslashes($status), 'and']
-					]);
+					return $query->where($table . '.status', '=', addslashes($status), 'or');
 				})
 				// If applicable, add the required joins to relations
-				->when($joinTables, function($query) use ($table) {
+				->when($hasWheres, function($query) use ($table) {
 					return $query->leftJoin('clubs', 'clubs.id', '=', $table . '.club_id')
-					->leftJoin('states', 'states.id', '=', $table . '.state_id');
+					->leftJoin('states', 'states.id', '=', $table . '.state_id')
+					->where($whereConditions);
 				})
 				->paginate(self::PAGINATION_SIZE);
 		}

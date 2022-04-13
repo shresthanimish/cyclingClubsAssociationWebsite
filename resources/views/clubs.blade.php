@@ -25,8 +25,40 @@
 <div class="upcoming-races page-content-block bg-dark-grey">
 	<div class="content-block container">
 		<div class="flex flex-between">
-			<div class="content-block column">
+			<div>
 				<h3>Find a club near you</h3>
+
+				<div>
+					<form id="searchForm" method="post">
+						@csrf
+
+						<div class="form-element">
+							<label>Keyword</label>
+							<div class="form-input"><input type="text" name="keyword" value="{{ $keyword }}" /></div>
+						</div>
+
+						<div class="form-element">
+							<label>State <span class="validation-error">&#42;</span></label>
+							<div class="form-input">
+							@if ( is_object($states) && count($states) )
+								<select name="statesId" class="select">
+									<option value="">All states</option>
+								@foreach ( $states as $state )
+									<option value="{{ $state->id }}" {{ ( $state->id ==  old('state_id') ? 'selected="true"' : '' ) }}>{{ $state->name }}</option>
+								@endforeach
+								</select>
+							@endif
+							</div>
+						</div>
+
+						<div class="form-element">
+							<label>&nbsp;</label>
+							<div class="form-input"><input type="submit" name="search" value="Search" class="button" /></div>
+						</div>
+					</form>
+
+
+				</div>
 			</div>
 		</div>
 

@@ -30,23 +30,23 @@ class UsersController extends Controller
 	{
 		$user = new \App\Models\User;
 
-		$displayed = false;
+		$searched = false;
 		$keyword = $request->input('keyword');
 		$role = $request->input('role');
 		$status = $request->input('status');
-		$clubsId = $request->input('club_id');
+		$clubsId = $request->input('clubsId');
 		$appends = ['keyword' => $keyword, 'role' => $role, 'status' => $status, 'clubsId' => $clubsId];
 
 		if ( $request->isMethod('post') )
 		{
-			if ( !empty($keyword) || !empty($role) || !empty($status) )
+			if ( !empty($keyword) || !empty($role) || !empty($status) || !empty($clubsId) )
 			{
 				$users = $user->search($keyword, $role, $status, $clubsId);
-				$displayed = true;
+				$searched = true;
 			}
 		}
 
-		if ( !$displayed )
+		if ( !$searched )
 		{
 			$users = $user->paginate($user::PAGINATION_SIZE);
 		}
@@ -61,7 +61,8 @@ class UsersController extends Controller
 				'keyword' => $keyword,
 				'role' => $role,
 				'status' => $status,
-				'clubsId' => $clubsId
+				'clubsId' => $clubsId,
+				'searched' => $searched,
 			]);
 		}
 		else
@@ -71,7 +72,8 @@ class UsersController extends Controller
 				'keyword' => $keyword,
 				'role' => $role,
 				'status' => $status,
-				'clubsId' => $clubsId
+				'clubsId' => $clubsId,
+				'searched' => $searched,
 			]);
 		}
 		return $rv;

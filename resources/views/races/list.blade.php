@@ -28,7 +28,9 @@
 	@include('races._search', [
 		'race' => $race,
 		'keyword' => $keyword,
+		'clubs' => App\Models\Club::orderBy('title', 'asc')->get(),
 		'clubsId' => $clubsId,
+		'states' => App\Models\State::orderBy('name', 'asc')->get(),
 		'statesId' => $statesId,
 		'status' => $status,
 	])

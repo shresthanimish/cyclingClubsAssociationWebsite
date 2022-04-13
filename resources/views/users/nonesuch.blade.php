@@ -17,7 +17,7 @@
 		<div class="button"><a href="{{ route('/users/create') }}">Create User</a></div>
 
 		@if ( $searched )
-			@include('users.search', [
+			@include('users._search', [
 				'user' => $user,
 				'keyword' => $keyword,
 				'role' => $role,

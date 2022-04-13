@@ -135,7 +135,7 @@ class Rider extends Model
 	 * @param string|NULL $clubsId
 	 * @return Rider[]
 	 */
-	public function search( $keyword, $gender, $clubsId )
+	public function search( $keyword = NULL, $gender = NULL, $clubsId = NULL )
 	{
 		if ( !empty($keyword) || !empty($gender) || !empty($clubsId) )
 		{
@@ -159,25 +159,21 @@ class Rider extends Model
 				}
 			}
 
-			$joinTables = ( count($whereConditions) ? true : false );
+			$hasWheres = ( count($whereConditions) ? true : false );
 			$rv = self::select($table . '.*')
-				->where($whereConditions)
-				// If applicable, add where condition for Club ID
-				->when(!empty($clubsId), function($query) use($table, $clubsId) {
-					return $query->leftJoin('users', 'riders.user_id', '=', $table . '.user_id')
-						->where([
-							['users.club_id', '=', addslashes($clubsId), 'and']
-						]);
-				})
 				// If applicable, add where condition for gender
 				->when(!empty($gender), function($query) use($table, $gender) {
-					return $query->where([
-						[$table . '.gender', '=', addslashes($gender), 'and']
-					]);
+					return $query->where($table . '.gender', '=', addslashes($gender), 'or');
+				})
+				// If applicable, add where condition for Club ID
+				->when(!empty($clubsId), function($query) use($table, $clubsId) {
+					return $query->leftJoin('users', 'users.id', '=', $table . '.user_id')
+						->where('users.club_id', '=', addslashes($clubsId), 'or');
 				})
 				// If applicable, add the required joins to relations
-				->when($joinTables, function($query) use ($table) {
-					return $query->leftJoin('users', 'users.id', '=', $table . '.user_id');
+				->when($hasWheres, function($query) use ($table) {
+					return $query->leftJoin('users', 'users.id', '=', $table . '.user_id')
+						->where($whereConditions);
 				})
 				->paginate(self::PAGINATION_SIZE);
 		}

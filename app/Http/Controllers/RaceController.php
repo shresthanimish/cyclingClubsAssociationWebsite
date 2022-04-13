@@ -65,7 +65,7 @@ class RaceController extends PublicController
 					'clubsId' => $clubsId,
 					'statesId' => $statesId,
 					'status' => $status,
-
+					'searched' => $searched,
 				]);
 			}
 			else

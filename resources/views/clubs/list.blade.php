@@ -28,6 +28,7 @@
 	@include('clubs._search', [
 		'club' => $club,
 		'keyword' => $keyword,
+		'states' => App\Models\State::orderBy('name', 'asc')->get(),
 		'statesId' => $statesId,
 	])
 

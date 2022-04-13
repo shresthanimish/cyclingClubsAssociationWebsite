@@ -10,7 +10,7 @@
 
 				<div class="form-element">
 					<label>Keyword</label>
-					<div class="form-input"><input type="text" name="keyword" value="{{ $keyword }}" /></div>
+					<div class="form-input"><input type="text" name="keyword" value="{{ $keyword }}" autofocus class="input" /></div>
 				</div>
 
 				<div class="form-element">

@@ -120,7 +120,7 @@ class Club extends Model
 	 * @param int|NULL $statesId
 	 * @return Club[]
 	 */
-	public function search( $keyword, $statesId )
+	public function search( $keyword = NULL, $statesId = NULL )
 	{
 		if ( !empty($keyword) || !empty($statesId) )
 		{
@@ -144,18 +144,16 @@ class Club extends Model
 				}
 			}
 
-			$joinTables = ( count($whereConditions) ? true : false );
+			$hasWheres = ( count($whereConditions) ? true : false );
 			$rv = self::select($table . '.*')
-				->where($whereConditions)
 				// If applicable, add where condition for State ID
 				->when(!empty($statesId), function($query) use($table, $statesId) {
-					return $query->where([
-						[$table . '.state_id', '=', addslashes($statesId), 'and']
-					]);
+					return $query->where($table . '.state_id', '=', addslashes($statesId), 'or');
 				})
 				// If applicable, add the required joins to relations
-				->when($joinTables, function($query) use ($table) {
-					return $query->leftJoin('states', 'states.id', '=', $table . '.state_id');
+				->when($hasWheres, function($query) use ($table) {
+					return $query->leftJoin('states', 'states.id', '=', $table . '.state_id')
+						->where($whereConditions);
 				})
 				->paginate(self::PAGINATION_SIZE);
 		}
