@@ -151,7 +151,7 @@ class Club extends Model
 					return $query->where($table . '.state_id', '=', addslashes($statesId), 'or');
 				})
 				// If applicable, add the required joins to relations
-				->when($hasWheres, function($query) use ($table) {
+				->when($hasWheres, function($query) use ($table, $whereConditions) {
 					return $query->leftJoin('states', 'states.id', '=', $table . '.state_id')
 						->where($whereConditions);
 				})

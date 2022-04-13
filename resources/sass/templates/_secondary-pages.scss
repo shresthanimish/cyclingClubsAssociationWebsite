@@ -10,6 +10,10 @@ div.page-content-block {
 
 	.content-block {
 		@include h-padding-responsive(0.85);
+
+		.race-item {
+			@include flex-row(nowrap);
+		}
 	}
 }
 

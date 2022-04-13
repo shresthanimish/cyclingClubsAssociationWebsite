@@ -35,7 +35,25 @@ class PublicController extends Controller
 	 */
 	public function clubs( Request $request )
 	{
-		return view('clubs');
+		if ( $request->isMethod('post') )
+		{
+			$club = new \App\Models\Club;
+			$keyword = $request->input('keyword');
+			$statesId = $request->input('statesId');
+			$appends = ['keyword' => $keyword, 'statesId' => $statesId];
+			$clubs = $club->search($keyword, $statesId);
+			$clubs->appends($appends);
+		}
+		else
+		{
+			$keyword = $statesId = $clubs = NULL;
+		}
+		return view('clubs', [
+			'keyword' => $keyword,
+			'statesId' => $statesId,
+			'states' => \App\Models\State::orderBy('name', 'asc')->get(),
+			'clubs' => $clubs,
+		]);
 	}
 
 	/**

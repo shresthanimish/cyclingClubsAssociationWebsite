@@ -39,25 +39,25 @@
 
 			<div class="rider-items list-items">
 				<div class="rider-item row list-header list-item">
-					<div class="first-name column">First Name</div>
-					<div class="surname column">Surname</div>
-					<div class="grading column">Grading</div>
-					<div class="age column">Age</div>
-					<div class="gender column">Gender</div>
-					<div class="club column">Club</div>
-					<div class="actions column align-right">&nbsp;</div>
+					<div class="first-name column column-2">First Name</div>
+					<div class="surname column column-3">Surname</div>
+					<div class="grading column column-1">Grading</div>
+					<div class="age column column-1">Age</div>
+					<div class="gender column column-1">Gender</div>
+					<div class="club column column-3">Club</div>
+					<div class="actions column column-1 align-right">&nbsp;</div>
 				</div>
 
 			@foreach ( $riders as $rider )
 
 				<div class="rider-item row list-item">
-					<div class="first-name column">{{ isset($rider->user) ? $rider->user->first_name : 'n/a' }}</div>
-					<div class="last-name column">{{ isset($rider->user) ? $rider->user->surname : 'n/a' }}</div>
-					<div class="grading column">{{ $rider->grading }}</div>
-					<div class="age column">{{ $rider->age }}</div>
-					<div class="gender column">{{ $rider->getGender() }}</div>
-					<div class="club column">{{ ( isset($rider->user) && isset($rider->user->club) ? $rider->user->club->title : 'n/a' ) }}</div>
-					<div class="actions column align-right"><a href="{{ route('/riders/details', $rider->id) }}">View</a></div>
+					<div class="first-name column column-2">{{ isset($rider->user) ? $rider->user->first_name : 'n/a' }}</div>
+					<div class="last-name column column-3">{{ isset($rider->user) ? $rider->user->surname : 'n/a' }}</div>
+					<div class="grading column column-1">{{ $rider->grading }}</div>
+					<div class="age column column-1">{{ $rider->age }}</div>
+					<div class="gender column column-1">{{ $rider->getGender() }}</div>
+					<div class="club column column-3">{{ ( isset($rider->user) && isset($rider->user->club) ? $rider->user->club->title : 'n/a' ) }}</div>
+					<div class="actions column column-1 align-right"><a href="{{ route('/riders/details', $rider->id) }}">View</a></div>
 				</div>
 
 			@endforeach
@@ -67,6 +67,7 @@
 			{{ $riders->links('vendor.pagination.custom') }}
 		@endif
 
+		</div>
 	</div>
 </div>
 

@@ -250,7 +250,7 @@ class Race extends Model
 					return $query->where($table . '.status', '=', addslashes($status), 'or');
 				})
 				// If applicable, add the required joins to relations
-				->when($hasWheres, function($query) use ($table) {
+				->when($hasWheres, function($query) use ($table, $whereConditions) {
 					return $query->leftJoin('clubs', 'clubs.id', '=', $table . '.club_id')
 					->leftJoin('states', 'states.id', '=', $table . '.state_id')
 					->where($whereConditions);

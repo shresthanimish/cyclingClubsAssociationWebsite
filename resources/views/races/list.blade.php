@@ -71,6 +71,7 @@
 		{{ $races->links('vendor.pagination.custom') }}
 	@endif
 
+		</div>
 	</div>
 </div>
 

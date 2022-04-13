@@ -171,7 +171,7 @@ class Rider extends Model
 						->where('users.club_id', '=', addslashes($clubsId), 'or');
 				})
 				// If applicable, add the required joins to relations
-				->when($hasWheres, function($query) use ($table) {
+				->when($hasWheres, function($query) use ($table, $whereConditions) {
 					return $query->leftJoin('users', 'users.id', '=', $table . '.user_id')
 						->where($whereConditions);
 				})

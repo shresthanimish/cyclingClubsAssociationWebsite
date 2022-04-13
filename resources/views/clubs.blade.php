@@ -57,8 +57,15 @@
 						</div>
 					</form>
 
-
 				</div>
+
+	@if ( !empty($clubs) )
+		@include('clubs._list', [
+			'clubs' => $clubs,
+			'isAdmin' => false,
+		])
+	@endif
+
 			</div>
 		</div>
 

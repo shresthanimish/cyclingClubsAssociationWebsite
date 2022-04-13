@@ -24,26 +24,29 @@
 
 <div class="upcoming-races page-content-block bg-dark-blue">
 	<div class="content-block container container-padded">
-		<div class="flex flex-between">
-			<div>
+		<div class="flex">
+			<div class="container">
 				<h2>Upcoming Races</h2>
+
+				<div class="upcoming-races-list races-list">
 
 	@if ( isset($upcomingRaces) && count($upcomingRaces) )
 		@foreach ( $upcomingRaces as $race )
 
-				<div class="upcoming-race">
-					<h5>{{ $race->title }}</h5>
-					{!! ( isset($race->club) ? '<p><strong>' . $race->club->title . '</strong><p>' : '' ) !!}
-					<p>{{ $race->getRaceDate('l jS F') }} {{ $race->start_time }}</p>
-					<p>Number of entrants: <strong>{{ \App\Models\Entrant::getNumberEntrants($race->id) }}</strong></p>
-				</div>
+					<div class="race-item">
+						<h5>{{ $race->title }}</h5>
+						{!! ( isset($race->club) ? '<p><strong>' . $race->club->title . '</strong><p>' : '' ) !!}
+						<p>{{ $race->getRaceDate('l jS F') }} {{ $race->start_time }}</p>
+						<p>Number of entrants: <strong>{{ \App\Models\Entrant::getNumberEntrants($race->id) }}</strong></p>
+					</div>
 
 		@endforeach
 	@else
 
-		<p>There are no upcoming races.</p>
+					<p>There are no upcoming races.</p>
 
 	@endif
+				</div>
 
 			</div>
 		</div>
@@ -53,20 +56,23 @@
 
 <div class="race-results page-content-block bg-orange">
 	<div class="content-block container container-padded">
-		<div class="flex flex-between">
-			<div>
+		<div class="flex">
+			<div class="container">
 				<h3>Race Results</h3>
+
+				<div class="upcoming-races-list races-list">
 
 	@if ( isset($recentRaces) && count($recentRaces) )
 		@foreach ( $recentRaces as $race )
 			@php ( $numberOfEntrants = \App\Models\Entrant::getNumberEntrants($race->id) )
 
-				<div class="upcoming-race">
-					<h5>{{ $race->title }}</h5>
-					{!! ( isset($race->club) ? '<p><strong>' . $race->club->title . '</strong><p>' : '' ) !!}
-					<p>{{ $race->getRaceDate('l jS F') }} {{ $race->start_time }}</p>
-					<p>Number of entrants: <strong>{{ $numberOfEntrants }}</strong></p>
-					<div class="placings">
+					<div class="race-item">
+						<h5>{{ $race->title }}</h5>
+						{!! ( isset($race->club) ? '<p><strong>' . $race->club->title . '</strong><p>' : '' ) !!}
+						<p>{{ $race->getRaceDate('l jS F') }} {{ $race->start_time }}</p>
+						<p>Number of entrants: <strong>{{ $numberOfEntrants }}</strong></p>
+
+						<div class="placings">
 
 			@if ( $numberOfEntrants > 0 )
 				@php ( $placings = \App\Models\Entrant::getPlacings($race->id, 10) )
@@ -77,9 +83,8 @@
 				@endforeach
 			@endif
 
+						</div>
 					</div>
-				</div>
-
 
 		@endforeach
 	@else
@@ -88,6 +93,7 @@
 
 	@endif
 
+				</div>
 			</div>
 		</div>
 

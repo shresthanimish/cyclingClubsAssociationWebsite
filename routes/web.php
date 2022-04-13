@@ -18,7 +18,7 @@ Route::group(['middleware' => ['web']], function () {
 	// Public Routes
 	Route::get('/', 'App\Http\Controllers\PublicController@index')->name('/');
 	Route::get('/about', 'App\Http\Controllers\PublicController@about')->name('about-us');
-	Route::get('/clubs', 'App\Http\Controllers\PublicController@clubs')->name('clubs');
+	Route::match(['get', 'post'], '/clubs', 'App\Http\Controllers\PublicController@clubs')->name('clubs');
 	Route::get('/races', 'App\Http\Controllers\PublicController@races')->name('races');
 	Route::get('/contact', [App\Http\Controllers\ContactUsController::class, 'showContactUsForm']);
 	Route::post('/contact', [App\Http\Controllers\ContactUsController::class, 'processContactUsForm'])->name('contact.store');

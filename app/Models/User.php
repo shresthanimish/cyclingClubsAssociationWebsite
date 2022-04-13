@@ -215,7 +215,7 @@ class User extends Model
 					return $query->where($table . '.club_id', '=', addslashes($clubsId), 'or');
 				})
 				// If applicable, add the required joins to relations
-				->when($hasWheres, function($query) {
+				->when($hasWheres, function($query) use($whereConditions) {
 					return $query->where($whereConditions);
 				})
 				->paginate(self::PAGINATION_SIZE);
